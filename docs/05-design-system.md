@@ -57,3 +57,14 @@
 2. **Textile Zoom**: Tactile depth hover on carpet photos (`scale-103` transition 0.5s ease-out).
 3. **Drawer Transition**: Slide-over drawer with backdrop blur (`backdrop-blur-sm`).
 - **Strict Reduced Motion**: All animations disabled when `prefers-reduced-motion: reduce` is detected.
+
+---
+
+## 5. Dark Mode & System Preference Architecture
+- **Default Behavior**: Automatically detects and loads the client device's default operating system theme mode (`prefers-color-scheme: dark` vs `light`).
+- **User Control**: Tri-mode selector available in the header and mobile navigation drawer:
+  1. *Light Mode*: Warm raw wool travertine canvas (`#FAF8F5`), white cards, and deep basalt text.
+  2. *Dark Mode*: Deep slate basalt canvas (`#0F1012`), elevated obsidian cards (`#181A1D`), crisp high-contrast text (`#F5F3EF`), luminous teal accents (`#57BCC4`), and golden ochre highlights.
+  3. *System Default*: Real-time synchronization with OS color scheme changes via `matchMedia` listener.
+- **Persistence**: Remembers user preference in `localStorage` under key `rugessa_theme_preference`.
+

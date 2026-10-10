@@ -25,7 +25,7 @@ export const RugessaLogo: React.FC<RugessaLogoProps> = ({
       <img
         src="/assets/mainLogo.png"
         alt="Rugessa Carpet & Textiles Logo"
-        className={`${heightClasses[size]} w-auto object-contain transition-transform duration-300 ${
+        className={`${heightClasses[size]} w-auto object-contain transition-transform duration-300 dark:brightness-105 ${
           inverted ? 'brightness-0 invert' : ''
         }`}
         loading="eager"

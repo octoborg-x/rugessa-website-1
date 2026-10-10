@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @import "./styles/tokens.css";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @layer base {
   body {
     background-color: var(--surface-canvas);
@@ -8,10 +10,53 @@
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
   }
 
   h1, h2, h3, .font-serif-heading {
     font-family: var(--font-display);
   }
+}
+
+/* Dark Mode Global Surface & Contrast Harmony */
+.dark body {
+  background-color: var(--surface-canvas);
+  color: var(--color-text-primary);
+}
+
+.dark .bg-white {
+  background-color: var(--surface-card) !important;
+}
+
+.dark .bg-\[\#FAF8F5\],
+.dark .bg-\[\#F1EDE6\],
+.dark .bg-\[\#F2EEE8\] {
+  background-color: var(--surface-subtle) !important;
+}
+
+.dark .text-gray-900,
+.dark .text-gray-800 {
+  color: #F5F3EF !important;
+}
+
+.dark .text-gray-700,
+.dark .text-gray-600 {
+  color: #C5C2BA !important;
+}
+
+.dark .text-gray-500 {
+  color: #98958D !important;
+}
+
+.dark .border-gray-200,
+.dark .border-gray-100,
+.dark .border-\[\#E6E0D6\],
+.dark .border-\[var\(--border-subtle\)\] {
+  border-color: var(--border-subtle) !important;
+}
+
+.dark .bg-gray-50,
+.dark .bg-gray-100 {
+  background-color: #202328 !important;
 }
 

@@ -1,8 +1,10 @@
 import React from 'react';
 import { RugessaLogo } from './RugessaLogo';
-import { Mail, ShieldCheck, ArrowUp } from 'lucide-react';
+import { Mail, ShieldCheck, ArrowUp, MessageSquare } from 'lucide-react';
 import productsData from '../../data/products.json';
 import siteData from '../../data/site.json';
+import { getWhatsAppUrl, PHONE_DISPLAY, PHONE_TEL, FACTORY_ADDRESS, CONTACT_EMAIL } from '../utils/whatsapp';
+import { ThemeToggle } from './ThemeToggle';
 
 interface FooterProps {
   onNavigate: (sectionId: string, filterCollection?: string) => void;
@@ -31,11 +33,21 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 <span>33 Authentic Machine-Woven Carpets</span>
               </div>
               <div>
-                Tel: <a href="tel:+212771010849" className="text-white hover:underline">+212 771 010 849</a> · WhatsApp: <a href="https://wa.me/212771010849" target="_blank" rel="noopener noreferrer" className="text-[#25D366] hover:underline">+212 771 010 849</a>
+                Tel: <a href={`tel:${PHONE_TEL}`} className="text-white hover:underline">{PHONE_DISPLAY}</a> · WhatsApp:{' '}
+                <a
+                  href={getWhatsAppUrl('Hello Rugessa Team, I am inquiring about carpet collections.')}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#25D366] hover:underline inline-flex items-center gap-1 font-medium"
+                  title="Open WhatsApp chat with Rugessa"
+                >
+                  <MessageSquare className="w-3.5 h-3.5" />
+                  {PHONE_DISPLAY}
+                </a>
               </div>
-              <div>Inquiries: <a href="mailto:info@rugessa.com" className="text-white underline">info@rugessa.com</a></div>
+              <div>Inquiries: <a href={`mailto:${CONTACT_EMAIL}`} className="text-white underline">{CONTACT_EMAIL}</a></div>
               <div className="text-[11px] text-gray-500 pt-1">
-                Sud-Ouest, N° 17, Zone Industrielle, Mohammédia 28810, Morocco
+                {FACTORY_ADDRESS}
               </div>
             </div>
           </div>
@@ -128,8 +140,9 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           <div>
             &copy; {new Date().getFullYear()} Rugessa. All rights reserved. Specialized Machine-Made Carpet Production.
           </div>
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-4 sm:gap-6">
             <span>Mohammédia 28810, Morocco</span>
+            <ThemeToggle variant="compact" />
             <button
               onClick={scrollToTop}
               className="flex items-center gap-1 hover:text-white transition-colors cursor-pointer"

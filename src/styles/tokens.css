@@ -50,3 +50,52 @@
   --font-display: 'Cormorant Garamond', Georgia, serif;
   --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
 }
+
+.dark, [data-theme="dark"] {
+  /* Dark Mode Surfaces & Canvas */
+  --surface-canvas: #0F1012;
+  --surface-card: #181A1D;
+  --surface-subtle: #22252A;
+  --surface-dark: #0A0A0C;
+
+  /* Dark Mode Typography */
+  --color-text-primary: #F5F3EF;
+  --color-text-secondary: #B4B1A8;
+  --color-text-muted: #828078;
+  --color-text-inverse: #18191B;
+
+  /* Logo-Derived Brand Triad (Adjusted for Dark Mode Contrast) */
+  /* Teal */
+  --color-teal-50: #132729;
+  --color-teal-100: #1C3B3F;
+  --color-teal-300: #48ABB2;
+  --color-teal-500: #57BCC4;
+  --color-teal-700: #48ABB2;
+  --color-teal-900: #D5ECEE;
+
+  /* Amber Gold */
+  --color-gold-50: #291E0B;
+  --color-gold-100: #3D2D10;
+  --color-gold-300: #E69F24;
+  --color-gold-500: #F4CE7E;
+  --color-gold-700: #FADCA0;
+  --color-gold-900: #FFF3DD;
+
+  /* Olive Green */
+  --color-olive-50: #19230A;
+  --color-olive-100: #25340F;
+  --color-olive-300: #86B636;
+  --color-olive-500: #A2D44D;
+  --color-olive-700: #C2E880;
+  --color-olive-900: #EBF8D5;
+
+  /* Borders & Controls */
+  --border-subtle: #282B30;
+  --border-control: #454952;
+  --border-focus: #57BCC4;
+
+  /* Shadows */
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.4), 0 10px 24px -10px rgba(0, 0, 0, 0.5);
+  --shadow-elevated: 0 12px 36px -8px rgba(0, 0, 0, 0.7);
+  --shadow-drawer: -8px 0 32px rgba(0, 0, 0, 0.8);
+}

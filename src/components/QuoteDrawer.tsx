@@ -15,6 +15,7 @@ import {
   AlertCircle,
   FileText
 } from 'lucide-react';
+import { openWhatsApp, WHATSAPP_DISPLAY, CONTACT_EMAIL, PHONE_DISPLAY } from '../utils/whatsapp';
 
 export const QuoteDrawer: React.FC = () => {
   const { items, removeItem, clearQuote, isDrawerOpen, closeDrawer, audienceMode } = useQuote();
@@ -90,15 +91,13 @@ export const QuoteDrawer: React.FC = () => {
   };
 
   const handleWhatsAppFailover = () => {
-    const text = encodeURIComponent(getBriefSummaryText());
-    // Direct WhatsApp to confirmed phone +212 771 010 849
-    window.open(`https://wa.me/212771010849?text=${text}`, '_blank');
+    openWhatsApp(getBriefSummaryText());
   };
 
   const handleEmailFailover = () => {
     const subject = encodeURIComponent(`Rugessa Quote Inquiry: ${projectType} (${referenceId})`);
     const body = encodeURIComponent(getBriefSummaryText());
-    window.location.href = `mailto:info@rugessa.com?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
   };
 
   return (
@@ -116,15 +115,15 @@ export const QuoteDrawer: React.FC = () => {
       />
 
       {/* Slide-over panel */}
-      <div className="relative ml-auto w-full max-w-lg bg-white h-full flex flex-col shadow-2xl z-10 overflow-hidden">
+      <div className="relative ml-auto w-full max-w-lg bg-white dark:bg-[#181A1D] text-gray-900 dark:text-[#F5F3EF] h-full flex flex-col shadow-2xl z-10 overflow-hidden transition-colors">
         {/* Header */}
-        <div className="p-5 border-b border-gray-100 flex items-center justify-between bg-[var(--surface-canvas)]">
+        <div className="p-5 border-b border-gray-100 dark:border-[#282B30] flex items-center justify-between bg-[var(--surface-canvas)]">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-full bg-[var(--color-teal-100)] flex items-center justify-center text-[var(--color-teal-900)]">
+            <div className="w-8 h-8 rounded-full bg-[var(--color-teal-100)] dark:bg-[var(--color-teal-900)] flex items-center justify-center text-[var(--color-teal-900)] dark:text-[var(--color-teal-100)]">
               <FileText className="w-4 h-4" />
             </div>
             <div>
-              <h2 className="text-base font-semibold text-gray-900">
+              <h2 className="text-base font-semibold text-gray-900 dark:text-white">
                 Specification & Quote Drawer
               </h2>
               <span className="text-[11px] text-gray-500 font-mono">
@@ -451,8 +450,8 @@ export const QuoteDrawer: React.FC = () => {
                         type="tel"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
-                        placeholder="+212 ... or +90 ..."
-                        className="w-full p-2.5 text-xs border border-gray-200 rounded-xs bg-white focus:outline-hidden focus:border-[var(--color-teal-700)]"
+                        placeholder="+212 771 010 849"
+                        className="w-full p-2.5 text-xs border border-gray-200 dark:border-[#383C44] rounded-xs bg-white dark:bg-[#202328] focus:outline-hidden focus:border-[var(--color-teal-700)]"
                       />
                     </div>
                   </div>
@@ -465,7 +464,7 @@ export const QuoteDrawer: React.FC = () => {
                       onChange={(e) => setConsent(e.target.checked)}
                       className="mt-0.5 accent-[var(--color-teal-700)] cursor-pointer"
                     />
-                    <label htmlFor="consent" className="text-[11px] text-gray-600 leading-tight">
+                    <label htmlFor="consent" className="text-[11px] text-gray-600 dark:text-gray-400 leading-tight">
                       I consent to Rugessa processing my inquiry for carpet estimation and quotation according to standard commercial privacy principles.
                     </label>
                   </div>
@@ -474,7 +473,7 @@ export const QuoteDrawer: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => setStep(2)}
-                      className="flex-1 py-3 border border-gray-200 text-gray-700 text-xs font-semibold rounded-xs min-h-[48px] flex items-center justify-center gap-1 cursor-pointer"
+                      className="flex-1 py-3 border border-gray-200 dark:border-[#383C44] text-gray-700 dark:text-gray-300 text-xs font-semibold rounded-xs min-h-[48px] flex items-center justify-center gap-1 cursor-pointer"
                     >
                       <ArrowLeft className="w-4 h-4" /> Back
                     </button>
@@ -491,6 +490,23 @@ export const QuoteDrawer: React.FC = () => {
                           <span>Submit Quote Request</span>
                         </>
                       )}
+                    </button>
+                  </div>
+
+                  <div className="pt-2 text-center">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (!fullName) {
+                          alert('Please enter your Name before sending via WhatsApp.');
+                          return;
+                        }
+                        handleWhatsAppFailover();
+                      }}
+                      className="w-full flex items-center justify-center gap-2 py-2.5 bg-[#25D366] hover:bg-[#1EBE5D] text-white text-xs font-semibold rounded-xs shadow-xs min-h-[44px] cursor-pointer"
+                    >
+                      <MessageSquare className="w-4 h-4" />
+                      <span>Send Direct via WhatsApp ({WHATSAPP_DISPLAY})</span>
                     </button>
                   </div>
                 </form>

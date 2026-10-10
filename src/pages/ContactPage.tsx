@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useQuote } from '../context/QuoteContext';
 import { Mail, MessageSquare, Send, CheckCircle2, AlertCircle, FileText, ShieldCheck } from 'lucide-react';
 import siteData from '../../data/site.json';
+import { getWhatsAppUrl, openWhatsApp, PHONE_DISPLAY, PHONE_TEL, FACTORY_ADDRESS, CONTACT_EMAIL } from '../utils/whatsapp';
 
 export const ContactPage: React.FC = () => {
   const { items, openDrawer } = useQuote();
@@ -53,14 +54,13 @@ export const ContactPage: React.FC = () => {
   };
 
   const handleWhatsApp = () => {
-    const text = encodeURIComponent(getDirectMessageText());
-    window.open(`https://wa.me/212771010849?text=${text}`, '_blank');
+    openWhatsApp(getDirectMessageText());
   };
 
   const handleEmailDirect = () => {
-    const subject = encodeURIComponent(`Rugessa Inquiry from ${fullName} [${refCode || 'DIRECT'}]`);
+    const subject = encodeURIComponent(`Rugessa Inquiry from ${fullName || 'Client'} [${refCode || 'DIRECT'}]`);
     const body = encodeURIComponent(getDirectMessageText());
-    window.location.href = `mailto:info@rugessa.com?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
   };
 
   return (
@@ -98,10 +98,10 @@ export const ContactPage: React.FC = () => {
                     <div>
                       <span className="text-xs text-gray-500 block">Direct Telephone</span>
                       <a
-                        href="tel:+212771010849"
+                        href={`tel:${PHONE_TEL}`}
                         className="text-base font-semibold text-gray-900 hover:text-[var(--color-teal-700)] hover:underline"
                       >
-                        +212 771 010 849
+                        {PHONE_DISPLAY}
                       </a>
                     </div>
                   </div>
@@ -114,28 +114,29 @@ export const ContactPage: React.FC = () => {
                     <div>
                       <span className="text-xs text-gray-500 block">Official WhatsApp Line</span>
                       <a
-                        href="https://wa.me/212771010849"
+                        href={getWhatsAppUrl('Hello Rugessa Team, I am inquiring from the website.')}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-base font-semibold text-[#128C7E] hover:underline"
+                        className="text-base font-semibold text-[#128C7E] dark:text-[#25D366] hover:underline"
+                        title="Open WhatsApp chat with Rugessa"
                       >
-                        +212 771 010 849
+                        {PHONE_DISPLAY}
                       </a>
                     </div>
                   </div>
 
                   {/* Email */}
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-[var(--color-teal-50)] text-[var(--color-teal-700)] flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-full bg-[var(--color-teal-50)] dark:bg-[var(--color-teal-900)] text-[var(--color-teal-700)] dark:text-[var(--color-teal-300)] flex items-center justify-center">
                       <Mail className="w-5 h-5" />
                     </div>
                     <div>
                       <span className="text-xs text-gray-500 block">General & Quotation Email</span>
                       <a
-                        href="mailto:info@rugessa.com"
-                        className="text-base font-semibold text-[var(--color-teal-700)] hover:underline"
+                        href={`mailto:${CONTACT_EMAIL}`}
+                        className="text-base font-semibold text-[var(--color-teal-700)] dark:text-[var(--color-teal-300)] hover:underline"
                       >
-                        info@rugessa.com
+                        {CONTACT_EMAIL}
                       </a>
                     </div>
                   </div>
@@ -143,30 +144,30 @@ export const ContactPage: React.FC = () => {
               </div>
 
               {/* Physical Facility in Mohammédia */}
-              <div className="pt-4 border-t border-gray-100 space-y-1 text-xs">
-                <span className="font-semibold text-gray-900 block">
+              <div className="pt-4 border-t border-gray-100 dark:border-[#2C2F36] space-y-1 text-xs">
+                <span className="font-semibold text-gray-900 dark:text-white block">
                   Showroom & Manufacturing Unit:
                 </span>
-                <p className="text-gray-600 leading-relaxed font-sans">
+                <p className="text-gray-600 dark:text-gray-300 leading-relaxed font-sans">
                   Sud-Ouest, N° 17, Zone Industrielle<br />
                   Mohammédia 28810, Morocco
                 </p>
-                <p className="text-[11px] text-gray-500 pt-1">
+                <p className="text-[11px] text-gray-500 dark:text-gray-400 pt-1">
                   Operating Hours: Mon - Fri: 08:30 - 18:00 | Sat: 09:00 - 13:00
                 </p>
                 <a
-                  href="https://maps.google.com/?q=Zone+Industrielle+Mohammedia+Morocco"
+                  href="https://maps.google.com/?q=Sud-Ouest+N+17+Zone+Industrielle+Mohammedia+28810+Morocco"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block text-[11px] text-[var(--color-teal-700)] font-semibold underline pt-1"
+                  className="inline-block text-[11px] text-[var(--color-teal-700)] dark:text-[var(--color-teal-400)] font-semibold underline pt-1"
                 >
                   View on Google Maps &rarr;
                 </a>
               </div>
 
               {/* Instant Dispatch Actions */}
-              <div className="pt-4 border-t border-gray-100 space-y-2.5">
-                <span className="text-xs font-semibold text-gray-800 block">
+              <div className="pt-4 border-t border-gray-100 dark:border-[#2C2F36] space-y-2.5">
+                <span className="text-xs font-semibold text-gray-800 dark:text-gray-200 block">
                   Priority Dispatch Options:
                 </span>
                 <button
@@ -181,7 +182,7 @@ export const ContactPage: React.FC = () => {
                   className="w-full flex items-center justify-center gap-2 py-2.5 bg-[#25D366] hover:bg-[#1EBE5D] text-white text-xs font-semibold rounded-xs shadow-xs min-h-[44px] cursor-pointer"
                 >
                   <MessageSquare className="w-4 h-4" />
-                  <span>Send Inquiry via WhatsApp (+212 771 010 849)</span>
+                  <span>Send Inquiry via WhatsApp ({PHONE_DISPLAY})</span>
                 </button>
               </div>
             </div>
@@ -293,8 +294,8 @@ export const ContactPage: React.FC = () => {
                       type="tel"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
-                      placeholder="+212 ... or +90 ..."
-                      className="w-full p-2.5 text-xs border border-gray-200 rounded-xs bg-white focus:outline-hidden focus:border-[var(--color-teal-700)]"
+                      placeholder="+212 771 010 849"
+                      className="w-full p-2.5 text-xs border border-gray-200 dark:border-[#383C44] rounded-xs bg-white dark:bg-[#202328] focus:outline-hidden focus:border-[var(--color-teal-700)]"
                     />
                   </div>
                 </div>

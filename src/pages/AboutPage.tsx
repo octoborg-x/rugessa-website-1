@@ -103,16 +103,16 @@ export const AboutPage: React.FC = () => {
               </p>
               <div className="pt-2 text-xs text-gray-500 space-y-1">
                 <div>
-                  Direct client queries: <a href="mailto:info@rugessa.com" className="font-semibold text-[var(--color-teal-700)] underline">info@rugessa.com</a> · Tel: <a href="tel:+212771010849" className="font-semibold text-gray-900 underline">+212 771 010 849</a>
+                  Direct client queries: <a href="mailto:info@rugessa.com" className="font-semibold text-[var(--color-teal-700)] dark:text-[var(--color-teal-300)] underline">info@rugessa.com</a> · Tel: <a href="tel:+212771010849" className="font-semibold text-gray-900 dark:text-white underline">+212 771 010 849</a> · WhatsApp: <a href="https://api.whatsapp.com/send?phone=212771010849" target="_blank" rel="noopener noreferrer" className="font-semibold text-[#25D366] underline">+212 771 010 849</a>
                 </div>
               </div>
             </div>
-            <div className="lg:col-span-4 bg-white p-6 rounded-xs border border-gray-200 text-xs text-gray-600 space-y-2">
-              <span className="font-semibold text-gray-900 block">Manufacturing Base & Facility</span>
+            <div className="lg:col-span-4 bg-white dark:bg-[#181A1D] p-6 rounded-xs border border-gray-200 dark:border-[#2C2F36] text-xs text-gray-600 dark:text-gray-300 space-y-2">
+              <span className="font-semibold text-gray-900 dark:text-white block">Manufacturing Base & Facility</span>
               <p className="leading-normal">
                 Operating from the industrial textile cluster of Mohammédia, Morocco:
               </p>
-              <p className="font-mono text-[11px] text-gray-800 bg-[#FAF8F5] p-2 border border-gray-200 rounded-xs">
+              <p className="font-mono text-[11px] text-gray-800 dark:text-gray-200 bg-[#FAF8F5] dark:bg-[#202328] p-2 border border-gray-200 dark:border-[#383C44] rounded-xs">
                 Sud-Ouest, N° 17, Zone Industrielle,<br />
                 Mohammédia 28810, Morocco
               </p>

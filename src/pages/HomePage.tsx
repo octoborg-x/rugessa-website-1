@@ -18,8 +18,10 @@ import {
   Layers,
   Award,
   Clock,
-  Compass
+  Compass,
+  MessageSquare
 } from 'lucide-react';
+import { getWhatsAppUrl, PHONE_DISPLAY, PHONE_TEL, FACTORY_ADDRESS } from '../utils/whatsapp';
 
 interface HomePageProps {
   initialCollectionFilter?: string;
@@ -498,23 +500,25 @@ export const HomePage: React.FC<HomePageProps> = ({
               <span>Launch Specification RFP</span>
             </button>
             <a
-              href="https://wa.me/212771010849?text=Hello%20Rugessa%20Team%2C%20I%20would%20like%20to%20request%20a%20quote."
+              href={getWhatsAppUrl('Hello Rugessa Team, I would like to request a quote.')}
               target="_blank"
               rel="noopener noreferrer"
               className="px-6 py-3.5 bg-[#25D366] hover:bg-[#1EBE5D] text-white font-semibold text-xs rounded-xs shadow-md transition-all min-h-[48px] flex items-center gap-2"
+              title="Open WhatsApp chat with Rugessa"
             >
-              <span>WhatsApp: +212 771 010 849</span>
+              <MessageSquare className="w-4 h-4" />
+              <span>WhatsApp: {PHONE_DISPLAY}</span>
             </a>
             <a
-              href="tel:+212771010849"
+              href={`tel:${PHONE_TEL}`}
               className="px-6 py-3.5 bg-transparent border border-gray-600 hover:border-white text-white font-semibold text-xs rounded-xs transition-all min-h-[48px] flex items-center gap-2"
             >
-              <span>Call: +212 771 010 849</span>
+              <span>Call: {PHONE_DISPLAY}</span>
             </a>
           </div>
 
           <p className="text-xs text-gray-400 mt-6 font-mono">
-            Facility: Sud-Ouest, N° 17, Zone Industrielle, Mohammédia 28810, Morocco
+            Facility: {FACTORY_ADDRESS}
           </p>
         </div>
       </section>
