@@ -1,0 +1,6 @@
+{
+  "name": "Rugessa - Fine Machine-Woven Carpets & Contract Textiles",
+  "description": "Official digital showroom, catalogue and quotation hub for Rugessa machine-made carpets, residential collections and hospitality textile projects.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

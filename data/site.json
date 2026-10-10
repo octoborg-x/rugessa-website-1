@@ -1,0 +1,229 @@
+{
+  "brand": {
+    "name": "Rugessa",
+    "tagline": "Weaving for a living...",
+    "meta_description": "Our plant is excited about sharing knowledge and experience gained during above 15-years of production with you, our valuable customers.",
+    "history_verbatim": "Our brand is excited about sharing knowledge and experience gained during above 15-years of production with you, our valuable customers. Since its establishment, our company having specialized staff in machine made carpet production; adopts the principles of unconditional customer satisfaction and quality in production and service as a company policy. Our company serving to its customers with its dynamic staff and continuing investments, will always continue to stand by you with the principles of quality, service, delivery in time and affordable price.",
+    "experience_years": 15,
+    "core_principles": [
+      "Unconditional customer satisfaction",
+      "Quality in production and service",
+      "Delivery in time",
+      "Affordable price"
+    ],
+    "origin_status": "CONFIRMED",
+    "location": "Mohammédia, Morocco",
+    "origin_notes": "Confirmed location: Sud-Ouest, N° 17, Zone Industrielle, Mohammédia 28810, Morocco."
+  },
+  "contact": {
+    "email": "info@rugessa.com",
+    "phone": "+212 771 010 849",
+    "whatsapp": "+212 771 010 849",
+    "phone_raw": "+212771010849",
+    "address": "Sud-Ouest, N° 17, Zone Industrielle, Mohammédia 28810",
+    "country": "Morocco",
+    "hours": "Monday - Friday: 08:30 - 18:00 | Saturday: 09:00 - 13:00",
+    "showroom": "Zone Industrielle Mohammédia Showroom & Production Facility",
+    "form_fields": [
+      {
+        "name": "fullName",
+        "label": "Name and Last name",
+        "required": true,
+        "type": "text"
+      },
+      {
+        "name": "phone",
+        "label": "Phone",
+        "required": false,
+        "type": "tel"
+      },
+      {
+        "name": "company",
+        "label": "Company name",
+        "required": false,
+        "type": "text"
+      },
+      {
+        "name": "email",
+        "label": "E-mail",
+        "required": true,
+        "type": "email"
+      },
+      {
+        "name": "message",
+        "label": "Your message",
+        "required": true,
+        "type": "textarea"
+      },
+      {
+        "name": "captcha",
+        "label": "Security Code",
+        "required": true,
+        "type": "captcha"
+      }
+    ]
+  },
+  "languages": [
+    {
+      "code": "en",
+      "name": "English",
+      "is_default": true
+    },
+    {
+      "code": "tr",
+      "name": "T\u00fcrk\u00e7e",
+      "is_default": false
+    }
+  ],
+  "care_guide": {
+    "intro": "It is very important and essential to follow the below recommendations for your carpet to protect its beauty and durableness.",
+    "points": [
+      "1 - In the event of crushing of fluff yarns under the heavy objects, fluff yarns in this area should be brushed and then cleaned with a vacuum cleaner with the feature of beating.",
+      "2 - To prevent settlement of dusts on the carpet among fluff yarn and on the base, cleaning should be performed with vacuum cleaner periodically.",
+      "3 - Sweeping should be carried out in the direction of sweeping of fluff yarns and slowly with vacuum cleaner. The carpet should not be exposed to hard impacts such as beating and stirring while cleaning.",
+      "4 - Avoid using excessive water and shampoo while cleaning the carpet.",
+      "5 - Never wash the carpet, following cleaning with shampoo, it should be wiped with water and dried immediately.",
+      "6 - A material spilt over the carpet and causing stain can be removed by immediate and correct intervention.",
+      "7 - Stain should be absorbed at high step of the vacuum cleaner and then should be cleaned with little water and carpet shampoo with the movements in the direction of sweeping and the residual moisture should be removed by buffering with vacuum cleaner or moisture absorber cloth or a similar material (tissue, etc.).",
+      "8 - Stain removal process should be tested on the non-visible part of the carpet with a chemical substance to be used for stain removal.",
+      "9 - Fluff yarns in the area cleaned should be combed with a brush vertically.",
+      "10 - The carpet should be kept away from stove and similar heating units.",
+      "11 - Since direct sunlight may damage the carpet, the carpet should not be left in such environment for a long time.",
+      "12 - During transporting, avoid wetting the carpet and damage by hard, sharp and cutting objects."
+    ]
+  },
+  "stain_guide": [
+    {
+      "stain": "ALCOHOL DRINK",
+      "treatment": "Apply shampoo, then cushion with white spirit."
+    },
+    {
+      "stain": "BEER",
+      "treatment": "Add 3% white spirit into warm water and cushion."
+    },
+    {
+      "stain": "SHOE POLISH",
+      "treatment": "First of all apply thinner and then wipe with white spirit and apply shampoo."
+    },
+    {
+      "stain": "PLASTIC PAINT",
+      "treatment": "If the stain has occurred recently, cushion with cold water. It is hard to remove the dried stain, contact a specialist cleaning firm."
+    },
+    {
+      "stain": "CHEWING GUM",
+      "treatment": "Take the chewing-gum with a knife and then cushion with perchloroethylene."
+    },
+    {
+      "stain": "CHOCOLATE, CARAMEL, DESSERT",
+      "treatment": "Cushion with warm water or by adding 5% ammonia into water."
+    },
+    {
+      "stain": "GRASS, GREEN VEGETABLE, FLOWER",
+      "treatment": "Wipe by wetting with white spirit."
+    },
+    {
+      "stain": "DRUG, COSMETIC",
+      "treatment": "After wiping with thinner or perchloroethylene and then shampoo. If stain remains, wipe with water with 5% ammonia or white spirit."
+    },
+    {
+      "stain": "TAR, MACHINE OIL, FUEL OIL",
+      "treatment": "Cushion with thinner or perchloroethylene then shampoo. Repeat the process of white spirit and shampoo again."
+    },
+    {
+      "stain": "VOMIT, URINE, STOOL",
+      "treatment": "Cushion with water-vinegar mixture at the ratio of half and white spirit and then shampoo."
+    },
+    {
+      "stain": "MOLD",
+      "treatment": "Cushion with ammoniac water."
+    },
+    {
+      "stain": "MERCUROCHROME",
+      "treatment": "Cushion with one third white spirit, two thirds water."
+    },
+    {
+      "stain": "INK",
+      "treatment": "Cushion with 30% white spirit and 70% water after drying with blotting paper well, shampoo. Pure lemon juice will give better results."
+    },
+    {
+      "stain": "PERFUME",
+      "treatment": "Cushion with white spirit."
+    },
+    {
+      "stain": "RUST",
+      "treatment": "Wipe with water with potassium oxalate at the ratio of 3%."
+    },
+    {
+      "stain": "JAM, SYRUP, FRUIT JUICE",
+      "treatment": "Cushion with warm water. If stain remains, apply thinner or perchloroethylene."
+    },
+    {
+      "stain": "WINE, LEMONADE",
+      "treatment": "Cushion with water-vinegar mixture at the ratio of half and then shampoo."
+    },
+    {
+      "stain": "SUGAR",
+      "treatment": "Shampoo after cushioning with warm water."
+    },
+    {
+      "stain": "TINCTURE OF IODINE",
+      "treatment": "Cushion with pure ammonia."
+    },
+    {
+      "stain": "NAIL POLISH",
+      "treatment": "Shampoo after cushioning with acetone."
+    },
+    {
+      "stain": "OIL PAINT",
+      "treatment": "Cushion with thinner and then shampoo."
+    },
+    {
+      "stain": "MUD",
+      "treatment": "Do not wait for drying and then clean with vacuum cleaner."
+    },
+    {
+      "stain": "TEA",
+      "treatment": "If the stain is not removed with shampoo, cushion with white spirit or water with 10% ammonium."
+    },
+    {
+      "stain": "GLUE, VARNISH",
+      "treatment": "Cushion with warm water after wiping with thinner or perchloroethylene or shampoo."
+    },
+    {
+      "stain": "MUSTARD, MAYONNAISE, KETCHUP",
+      "treatment": "Wipe with water with ammonium at the ratio of 10% and then perchloroethylene. Shampoo if necessary."
+    },
+    {
+      "stain": "COFFEE",
+      "treatment": "If the stain is not removed with shampoo cushion with water with white spirit or ammonium at the ratio of 10%."
+    },
+    {
+      "stain": "BLOOD",
+      "treatment": "After cushioning with cold water, shampoo. If spot remains, use water with 5% ammonium."
+    },
+    {
+      "stain": "PEN",
+      "treatment": "Wipe with perchloroethylene or white spirit."
+    },
+    {
+      "stain": "FRUIT AND FOODSTUFF",
+      "treatment": "Cushion with warm water."
+    },
+    {
+      "stain": "FURNITURE OR FLOOR POLISH",
+      "treatment": "Wipe with pure alcohol or perchloroethylene, then shampoo. If the spot remains, use water with 5% ammonium or white spirit."
+    },
+    {
+      "stain": "CANDLE PARAFFIN",
+      "treatment": "Put absorbing blotting paper on the stain and iron at medium temperature. Cushion with perchloroethylene and then shampoo."
+    },
+    {
+      "stain": "EGG",
+      "treatment": "After cushioning with water with 5% ammonium or white spirit, shampoo."
+    },
+    {
+      "stain": "TOMATO PASTE, SAUCE, FAT, BUTTER",
+      "treatment": "After cushioning with thinner or perchloroethylene, shampoo. If spot remains, wipe with water with 5% ammonia."
+    }
+  ]
+}

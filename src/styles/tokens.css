@@ -1,0 +1,52 @@
+:root {
+  /* Surfaces & Canvas */
+  --surface-canvas: #FAF8F5;
+  --surface-card: #FFFFFF;
+  --surface-subtle: #F2EEE8;
+  --surface-dark: #161719;
+
+  /* Typography Colors */
+  --color-text-primary: #18191B;
+  --color-text-secondary: #4E4D4A;
+  --color-text-muted: #6B6862;
+  --color-text-inverse: #FFFFFF;
+
+  /* Logo-Derived Brand Triad */
+  /* Teal (ESSA & Drop) */
+  --color-teal-50: #EDF7F7;
+  --color-teal-100: #D5ECEE;
+  --color-teal-300: #88CCD0;
+  --color-teal-500: #48ABB2; /* Logo core */
+  --color-teal-700: #2C6B70; /* WCAG Text/CTA */
+  --color-teal-900: #194447;
+
+  /* Amber Gold (Rug script & Fringes) */
+  --color-gold-50: #FEF8ED;
+  --color-gold-100: #FCEFD5;
+  --color-gold-300: #F4CE7E;
+  --color-gold-500: #E69F24; /* Logo core */
+  --color-gold-700: #A86800; /* WCAG Text/Badge */
+  --color-gold-900: #5C3800;
+
+  /* Olive Green (Leaf & Rug base) */
+  --color-olive-50: #F4F8EC;
+  --color-olive-100: #E5EED0;
+  --color-olive-300: #ADC86C;
+  --color-olive-500: #86B636; /* Logo core */
+  --color-olive-700: #4E6A1E; /* WCAG Text/Badge */
+  --color-olive-900: #2C3C10;
+
+  /* Borders & Controls */
+  --border-subtle: #E6E0D6;
+  --border-control: #B5ADA0;
+  --border-focus: #2C6B70;
+
+  /* Shadows */
+  --shadow-card: 0 1px 3px rgba(24, 25, 27, 0.05), 0 10px 24px -10px rgba(24, 25, 27, 0.04);
+  --shadow-elevated: 0 12px 36px -8px rgba(24, 25, 27, 0.12);
+  --shadow-drawer: -8px 0 32px rgba(24, 25, 27, 0.14);
+
+  /* Fonts */
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+}
