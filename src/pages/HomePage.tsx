@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import productsData from '../../data/products.json';
 import siteData from '../../data/site.json';
 import { useQuote } from '../context/QuoteContext';
@@ -19,7 +19,9 @@ import {
   Award,
   Clock,
   Compass,
-  MessageSquare
+  MessageSquare,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react';
 import { getWhatsAppUrl, PHONE_DISPLAY, PHONE_TEL, FACTORY_ADDRESS } from '../utils/whatsapp';
 
@@ -66,28 +68,104 @@ export const HomePage: React.FC<HomePageProps> = ({
     }, 1800);
   };
 
+  const heroSlides = [
+    {
+      image: '/assets/products/polyster-shaggy_ps-001.jpg',
+      collection: 'Polyster Shaggy',
+      sku: 'PS-001',
+      spec: 'High-density pile tuft with optical luster & tactile warmth',
+      badge: 'Deep Residential Comfort',
+    },
+    {
+      image: '/assets/products/classic_cl-001.jpg',
+      collection: 'Classic Loomed',
+      sku: 'CL-001',
+      spec: 'Timeless architectural motifs & structural loomed density',
+      badge: 'Traditional Heritage',
+    },
+    {
+      image: '/assets/products/heatset_ht-007.jpg',
+      collection: 'Heatset Contract',
+      sku: 'HT-007',
+      spec: 'Thermal-treated polypropylene engineered for contract traffic',
+      badge: 'Hospitality & Commercial Weave',
+    },
+    {
+      image: '/assets/products/lurex-heatset_lh-003.jpg',
+      collection: 'Lurex Heatset',
+      sku: 'LH-003',
+      spec: 'Contemporary geometric loomed textile with metallic highlights',
+      badge: 'Architectural Designer Weave',
+    },
+    {
+      image: '/assets/products/viscose_vs-002.jpg',
+      collection: 'Viscose Sheen',
+      sku: 'VS-002',
+      spec: 'Silken reflective yarn finish for refined executive spaces',
+      badge: 'Lustrous Contemporary Pile',
+    },
+  ];
+
+  const [activeSlide, setActiveSlide] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+
+  useEffect(() => {
+    if (isPaused) return;
+    const interval = setInterval(() => {
+      setActiveSlide((prev) => (prev + 1) % heroSlides.length);
+    }, 5200);
+    return () => clearInterval(interval);
+  }, [isPaused, heroSlides.length]);
+
   return (
     <div className="space-y-0">
-      {/* SECTION 1: HERO PROPOSITION */}
+      {/* SECTION 1: HERO PROPOSITION WITH DARKENED IMAGE SLIDER */}
       {/* Q: Who is Rugessa, what do they craft, and how do I begin? */}
       <section
         id="hero"
-        className="relative bg-gradient-to-b from-white via-[var(--surface-canvas)] to-[#F1EDE6] pt-14 pb-20 border-b border-[var(--border-subtle)] overflow-hidden"
+        className="relative bg-[#0D0E11] text-white pt-12 pb-16 sm:pb-20 border-b border-[#24272D] overflow-hidden"
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Darkened Background Image Slider */}
+        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+          {heroSlides.map((slide, idx) => (
+            <div
+              key={slide.sku}
+              className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                idx === activeSlide
+                  ? 'opacity-100'
+                  : 'opacity-0 pointer-events-none'
+              }`}
+            >
+              <img
+                src={slide.image}
+                alt={slide.collection}
+                className="w-full h-full object-cover object-center filter brightness-[0.38] contrast-[1.15] scale-102 transform transition-transform duration-7000 ease-out"
+              />
+            </div>
+          ))}
+
+          {/* Deep dark architectural overlays for pristine typographic contrast */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/92 via-black/82 to-black/65" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0D0E11] via-transparent to-black/60" />
+          <div className="absolute inset-0 bg-radial-at-c from-transparent via-black/25 to-black/80" />
+        </div>
+
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             {/* Left Narrative Column */}
             <div className="lg:col-span-7 space-y-6">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[var(--color-teal-50)] border border-[var(--color-teal-100)] text-[var(--color-teal-700)] text-xs font-semibold">
-                <Sparkles className="w-3.5 h-3.5 text-[var(--color-teal-500)]" />
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-[#88CCD0] text-xs font-semibold">
+                <Sparkles className="w-3.5 h-3.5 text-[var(--color-gold-400)]" />
                 <span>Over 15 Years of Machine-Woven Carpet Craft</span>
               </div>
 
-              <h1 className="text-4xl sm:text-6xl lg:text-7xl font-light text-[var(--color-text-primary)] font-serif leading-[1.08] tracking-tight">
-                Weaving for a living<span className="text-[var(--color-teal-500)]">.</span>
+              <h1 className="text-4xl sm:text-6xl lg:text-7xl font-light text-white font-serif leading-[1.08] tracking-tight">
+                Weaving for a living<span className="text-[var(--color-gold-400)]">.</span>
               </h1>
 
-              <p className="text-base sm:text-lg text-[var(--color-text-secondary)] font-light leading-relaxed max-w-xl">
+              <p className="text-base sm:text-lg text-gray-200 font-light leading-relaxed max-w-xl">
                 {audienceMode === 'contract' ? (
                   <>
                     Engineered carpet collections for hospitality corridors, executive offices, and residential developments. High pile resilience, verified cleanability, and multi-line specification quotes.
@@ -103,7 +181,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               <div className="flex flex-wrap items-center gap-4 pt-2">
                 <button
                   onClick={openDrawer}
-                  className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-[var(--color-teal-700)] hover:bg-[var(--color-teal-900)] text-white text-xs font-semibold rounded-xs shadow-sm transition-all cursor-pointer min-h-[48px]"
+                  className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-[var(--color-teal-700)] hover:bg-[var(--color-teal-600)] text-white text-xs font-semibold rounded-xs shadow-md transition-all cursor-pointer min-h-[48px]"
                 >
                   <FileText className="w-4 h-4" />
                   <span>Request a Quotation</span>
@@ -111,57 +189,104 @@ export const HomePage: React.FC<HomePageProps> = ({
 
                 <button
                   onClick={() => onNavigateSection('collections')}
-                  className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-white hover:bg-gray-50 text-[var(--color-text-primary)] text-xs font-semibold rounded-xs border border-[var(--border-control)] shadow-2xs transition-all cursor-pointer min-h-[48px]"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-white/10 hover:bg-white/20 text-white text-xs font-semibold rounded-xs border border-white/25 backdrop-blur-md shadow-sm transition-all cursor-pointer min-h-[48px]"
                 >
                   <span>Explore the 10 Collections</span>
-                  <ArrowRight className="w-4 h-4 text-[var(--color-teal-700)]" />
+                  <ArrowRight className="w-4 h-4 text-[var(--color-gold-400)]" />
                 </button>
               </div>
 
               {/* Verified Trust Badges */}
-              <div className="pt-6 border-t border-[#E6E0D6] flex flex-wrap gap-y-2 gap-x-6 text-xs text-[var(--color-text-muted)] font-mono">
-                <span className="flex items-center gap-1.5 text-gray-800">
-                  <CheckCircle2 className="w-4 h-4 text-[var(--color-olive-500)]" />
+              <div className="pt-6 border-t border-white/15 flex flex-wrap gap-y-2 gap-x-6 text-xs text-gray-300 font-mono">
+                <span className="flex items-center gap-1.5 text-gray-200">
+                  <CheckCircle2 className="w-4 h-4 text-[var(--color-olive-400)]" />
                   33 Verified SKUs
                 </span>
-                <span className="flex items-center gap-1.5 text-gray-800">
-                  <CheckCircle2 className="w-4 h-4 text-[var(--color-olive-500)]" />
+                <span className="flex items-center gap-1.5 text-gray-200">
+                  <CheckCircle2 className="w-4 h-4 text-[var(--color-olive-400)]" />
                   10 Weave Types
                 </span>
-                <span className="flex items-center gap-1.5 text-gray-800">
-                  <CheckCircle2 className="w-4 h-4 text-[var(--color-olive-500)]" />
+                <span className="flex items-center gap-1.5 text-gray-200">
+                  <CheckCircle2 className="w-4 h-4 text-[var(--color-olive-400)]" />
                   Zero Fakes / Zero Broken Links
                 </span>
+              </div>
+
+              {/* Slider Navigation Bar */}
+              <div className="flex items-center gap-3 pt-2">
+                <div className="flex items-center gap-1.5" role="tablist" aria-label="Hero slider pagination">
+                  {heroSlides.map((slide, idx) => (
+                    <button
+                      key={slide.sku}
+                      onClick={() => setActiveSlide(idx)}
+                      className={`transition-all duration-300 rounded-full cursor-pointer ${
+                        idx === activeSlide
+                          ? 'w-7 h-2 bg-[var(--color-gold-400)]'
+                          : 'w-2 h-2 bg-white/35 hover:bg-white/70'
+                      }`}
+                      aria-label={`Go to slide ${idx + 1}: ${slide.collection}`}
+                    />
+                  ))}
+                </div>
+                <span className="text-[11px] font-mono text-gray-300 tracking-wider">
+                  0{activeSlide + 1} / 0{heroSlides.length} · {heroSlides[activeSlide].collection}
+                </span>
+                <div className="flex items-center gap-1 ml-auto">
+                  <button
+                    onClick={() => setActiveSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length)}
+                    className="p-1.5 rounded-full bg-white/10 hover:bg-white/25 text-white transition-colors cursor-pointer"
+                    aria-label="Previous slide"
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={() => setActiveSlide((prev) => (prev + 1) % heroSlides.length)}
+                    className="p-1.5 rounded-full bg-white/10 hover:bg-white/25 text-white transition-colors cursor-pointer"
+                    aria-label="Next slide"
+                  >
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
+                </div>
               </div>
             </div>
 
             {/* Right Architectural Visual Montage */}
             <div className="lg:col-span-5 relative">
-              <div className="relative rounded-sm overflow-hidden shadow-elevated border border-[var(--border-subtle)] bg-white aspect-4/3 sm:aspect-16/11">
+              <div className="relative rounded-sm overflow-hidden shadow-2xl border border-white/20 bg-[#15171B] aspect-4/3 sm:aspect-16/11">
                 <img
-                  src="/assets/products/polyster-shaggy_ps-001.jpg"
-                  alt="Rugessa Polyster Shaggy Weave Textile"
-                  className="w-full h-full object-cover"
+                  src={heroSlides[activeSlide].image}
+                  alt={`Rugessa ${heroSlides[activeSlide].collection} Carpet Textile`}
+                  className="w-full h-full object-cover transition-all duration-700 hover:scale-103"
                   loading="eager"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex flex-col justify-end p-6 text-white">
-                  <span className="text-[11px] font-mono tracking-wider uppercase text-[#88CCD0]">
+                {/* Non-overlapping text overlay at bottom of image */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent flex flex-col justify-end p-5 sm:p-6 text-white pointer-events-none">
+                  <span className="text-[11px] font-mono tracking-wider uppercase text-[#88CCD0] font-semibold">
                     Featured Archive Series
                   </span>
-                  <span className="text-xl font-serif">Polyster Shaggy · Model PS-001</span>
-                  <span className="text-xs text-gray-300 mt-1">High-density pile tuft with optical luster</span>
+                  <span className="text-xl sm:text-2xl font-serif text-white">
+                    {heroSlides[activeSlide].collection} · Model {heroSlides[activeSlide].sku}
+                  </span>
+                  <span className="text-xs text-gray-300 mt-1 line-clamp-2">
+                    {heroSlides[activeSlide].spec}
+                  </span>
                 </div>
               </div>
 
-              {/* Floating Specification Card */}
-              <div className="absolute -bottom-6 -left-6 bg-white/95 backdrop-blur-md p-4 rounded-xs border border-gray-200 shadow-lg hidden sm:block max-w-xs">
-                <div className="flex items-center gap-2 mb-1">
-                  <ShieldCheck className="w-4 h-4 text-[var(--color-teal-700)]" />
-                  <span className="text-xs font-semibold text-gray-900">Commercial Standard</span>
+              {/* Commercial Standard Specification Card — Placed cleanly below image so zero text is obscured */}
+              <div className="mt-3.5 bg-black/60 dark:bg-[#181A1D]/80 backdrop-blur-md p-3.5 rounded-sm border border-white/15 dark:border-[#33373E] shadow-xl flex items-start gap-3">
+                <div className="w-8 h-8 rounded-full bg-[var(--color-teal-700)] text-white flex items-center justify-center shrink-0 mt-0.5">
+                  <ShieldCheck className="w-4 h-4" />
                 </div>
-                <p className="text-[11px] text-gray-500 leading-snug">
-                  Precision-loomed carpets crafted for prolonged resilience and easy spot maintenance.
-                </p>
+                <div className="flex-1 min-w-0 text-left">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="text-xs font-semibold text-white">Commercial Standard</span>
+                    <span className="text-[10px] font-mono text-[var(--color-teal-300)] font-bold">15+ Yrs Factory Heritage</span>
+                  </div>
+                  <p className="text-[11px] text-gray-300 leading-snug mt-0.5">
+                    Precision-loomed carpets crafted for prolonged resilience, dimensional stability, and easy spot maintenance.
+                  </p>
+                </div>
               </div>
             </div>
           </div>

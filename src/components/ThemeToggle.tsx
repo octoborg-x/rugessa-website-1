@@ -27,10 +27,10 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [menuOpen]);
 
-  const options: { mode: ThemeMode; label: string; icon: typeof Sun }[] = [
+  const options: { mode: ThemeMode; label: string; icon: typeof Laptop }[] = [
+    { mode: 'system', label: 'Auto (System)', icon: Laptop },
     { mode: 'light', label: 'Light', icon: Sun },
     { mode: 'dark', label: 'Dark', icon: Moon },
-    { mode: 'system', label: 'Auto (System)', icon: Laptop },
   ];
 
   if (variant === 'segmented') {
@@ -40,6 +40,21 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({
         role="group"
         aria-label="Theme mode selector"
       >
+        <button
+          type="button"
+          onClick={() => setThemeMode('system')}
+          className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xs transition-all cursor-pointer min-h-[32px] ${
+            themeMode === 'system'
+              ? 'bg-white dark:bg-[#2A2E36] text-[var(--color-teal-900)] dark:text-white font-semibold shadow-xs'
+              : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
+          }`}
+          title="Follow System default theme (Dark or Light)"
+          aria-pressed={themeMode === 'system'}
+        >
+          <Laptop className="w-3.5 h-3.5 text-gray-500" />
+          <span className="text-[11px]">Auto</span>
+        </button>
+
         <button
           type="button"
           onClick={() => setThemeMode('light')}
@@ -68,21 +83,6 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({
         >
           <Moon className="w-3.5 h-3.5 text-[var(--color-teal-400)]" />
           <span className="text-[11px]">Dark</span>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => setThemeMode('system')}
-          className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xs transition-all cursor-pointer min-h-[32px] ${
-            themeMode === 'system'
-              ? 'bg-white dark:bg-[#2A2E36] text-[var(--color-teal-900)] dark:text-white font-semibold shadow-xs'
-              : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
-          }`}
-          title="Follow System default theme (Dark or Light)"
-          aria-pressed={themeMode === 'system'}
-        >
-          <Laptop className="w-3.5 h-3.5 text-gray-500" />
-          <span className="text-[11px]">Auto ({resolvedTheme})</span>
         </button>
       </div>
     );
