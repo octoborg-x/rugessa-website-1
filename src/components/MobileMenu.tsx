@@ -109,26 +109,18 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
             </button>
           </div>
 
-          {/* Theme Selector - 3 Modes (D / L / S) */}
+          {/* Theme Selector - 3 Modes (Dark, Light, System) */}
           <div className="mt-3 pt-3 border-t border-gray-200 dark:border-[#33373E]">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-[11px] font-mono uppercase text-gray-500 dark:text-gray-400">
-                Theme (3 Modes: D / L / S)
-              </span>
-              <span className="text-[10px] font-mono text-[var(--color-teal-700)] dark:text-[var(--color-teal-300)] font-semibold">
-                {themeMode === 'system' ? `Auto (${resolvedTheme})` : themeMode === 'dark' ? 'Dark' : 'Light'}
-              </span>
-            </div>
-            <div className="grid grid-cols-3 gap-1.5">
+            <div className="grid grid-cols-3 gap-1.5" role="group" aria-label="Theme selector">
               <button
                 onClick={() => setThemeMode('dark')}
                 className={`flex items-center justify-center p-2 rounded-xs border min-h-[38px] cursor-pointer transition-colors ${
                   themeMode === 'dark'
-                    ? 'bg-white dark:bg-[#2A2E36] border-[var(--color-teal-500)] text-gray-900 dark:text-white font-semibold shadow-xs'
+                    ? 'bg-white dark:bg-[#2A2E36] border-[var(--color-teal-500)] text-gray-900 dark:text-white shadow-xs'
                     : 'bg-transparent border-gray-200 dark:border-[#383C44] text-gray-600 dark:text-gray-400'
                 }`}
-                title="Dark mode (D)"
-                aria-label="Dark mode (D)"
+                title="Dark mode"
+                aria-label="Dark mode"
               >
                 <Moon className="w-4 h-4 text-[var(--color-teal-400)]" />
               </button>
@@ -136,11 +128,11 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
                 onClick={() => setThemeMode('light')}
                 className={`flex items-center justify-center p-2 rounded-xs border min-h-[38px] cursor-pointer transition-colors ${
                   themeMode === 'light'
-                    ? 'bg-white dark:bg-[#2A2E36] border-[var(--color-gold-500)] text-gray-900 dark:text-white font-semibold shadow-xs'
+                    ? 'bg-white dark:bg-[#2A2E36] border-[var(--color-gold-500)] text-gray-900 dark:text-white shadow-xs'
                     : 'bg-transparent border-gray-200 dark:border-[#383C44] text-gray-600 dark:text-gray-400'
                 }`}
-                title="Light mode (L)"
-                aria-label="Light mode (L)"
+                title="Light mode"
+                aria-label="Light mode"
               >
                 <Sun className="w-4 h-4 text-amber-500" />
               </button>
@@ -148,11 +140,11 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
                 onClick={() => setThemeMode('system')}
                 className={`flex items-center justify-center p-2 rounded-xs border min-h-[38px] cursor-pointer transition-colors ${
                   themeMode === 'system'
-                    ? 'bg-white dark:bg-[#2A2E36] border-[var(--color-teal-700)] text-gray-900 dark:text-white font-semibold shadow-xs'
+                    ? 'bg-white dark:bg-[#2A2E36] border-[var(--color-teal-700)] text-gray-900 dark:text-white shadow-xs'
                     : 'bg-transparent border-gray-200 dark:border-[#383C44] text-gray-600 dark:text-gray-400'
                 }`}
-                title="System default mode (S)"
-                aria-label="System default mode (S)"
+                title="System default mode"
+                aria-label="System default mode"
               >
                 <Laptop className="w-4 h-4 text-[#88CCD0]" />
               </button>

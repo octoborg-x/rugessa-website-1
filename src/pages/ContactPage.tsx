@@ -3,6 +3,7 @@ import { useQuote } from '../context/QuoteContext';
 import { Mail, MessageSquare, Send, CheckCircle2, AlertCircle, FileText, ShieldCheck } from 'lucide-react';
 import siteData from '../../data/site.json';
 import { getWhatsAppUrl, openWhatsApp, PHONE_DISPLAY, PHONE_TEL, FACTORY_ADDRESS, CONTACT_EMAIL } from '../utils/whatsapp';
+import { ScrollReveal, Parallax } from '../components/ScrollReveal';
 
 export const ContactPage: React.FC = () => {
   const { items, openDrawer } = useQuote();
@@ -66,156 +67,165 @@ export const ContactPage: React.FC = () => {
   return (
     <div className="py-12 bg-[var(--surface-canvas)] min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-        {/* Header */}
-        <div className="max-w-2xl space-y-3">
-          <span className="text-xs font-mono uppercase tracking-widest text-[var(--color-teal-700)] font-semibold block">
-            Direct Inquiries & Quoting
-          </span>
-          <h1 className="text-3xl sm:text-5xl font-light font-serif text-[var(--color-text-primary)]">
-            Contact Rugessa Commercial
-          </h1>
-          <p className="text-sm text-[var(--color-text-secondary)] font-light leading-relaxed">
-            Have a project specification, bulk wholesale request, or carpet question? Contact our manufacturing office directly.
-          </p>
-        </div>
+        {/* Header with ScrollReveal & Parallax */}
+        <ScrollReveal direction="up" distance={24}>
+          <div className="max-w-2xl space-y-3 relative">
+            <span className="text-xs font-mono uppercase tracking-widest text-[var(--color-teal-700)] dark:text-[var(--color-teal-400)] font-semibold block">
+              Direct Inquiries & Quoting
+            </span>
+            <h1 className="text-3xl sm:text-5xl font-light font-serif text-[var(--color-text-primary)]">
+              Contact Rugessa Commercial
+            </h1>
+            <p className="text-sm text-[var(--color-text-secondary)] font-light leading-relaxed">
+              Have a project specification, bulk wholesale request, or carpet question? Contact our manufacturing office directly.
+            </p>
+          </div>
+        </ScrollReveal>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-          {/* Left Column: Direct Contacts & Quote Summary */}
+          {/* Left Column: Direct Contacts & Quote Summary with Parallax & ScrollReveal */}
           <div className="lg:col-span-5 space-y-6">
-            <div className="bg-white p-6 sm:p-8 rounded-sm border border-[var(--border-subtle)] shadow-xs space-y-6">
-              <div>
-                <span className="text-xs font-mono uppercase tracking-wider text-gray-400">
-                  Direct Factory & Commercial Channels
-                </span>
-                <div className="space-y-4 mt-3">
-                  {/* Phone */}
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-[var(--color-teal-50)] text-[var(--color-teal-700)] flex items-center justify-center">
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                      </svg>
+            <ScrollReveal direction="up" distance={26}>
+              <div className="bg-white dark:bg-[#181A1D] p-6 sm:p-8 rounded-sm border border-[var(--border-subtle)] dark:border-[#2C2F36] shadow-xs space-y-6">
+                <div>
+                  <span className="text-xs font-mono uppercase tracking-wider text-gray-400">
+                    Direct Factory & Commercial Channels
+                  </span>
+                  <div className="space-y-4 mt-3">
+                    {/* Phone */}
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full bg-[var(--color-teal-50)] dark:bg-[#1C3B3F] text-[var(--color-teal-700)] dark:text-[var(--color-teal-300)] flex items-center justify-center">
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                        </svg>
+                      </div>
+                      <div>
+                        <span className="text-xs text-gray-500 dark:text-gray-400 block">Direct Telephone</span>
+                        <a
+                          href={`tel:${PHONE_TEL}`}
+                          className="text-base font-semibold text-gray-900 dark:text-white hover:text-[var(--color-teal-700)] hover:underline"
+                        >
+                          {PHONE_DISPLAY}
+                        </a>
+                      </div>
                     </div>
-                    <div>
-                      <span className="text-xs text-gray-500 block">Direct Telephone</span>
-                      <a
-                        href={`tel:${PHONE_TEL}`}
-                        className="text-base font-semibold text-gray-900 hover:text-[var(--color-teal-700)] hover:underline"
-                      >
-                        {PHONE_DISPLAY}
-                      </a>
-                    </div>
-                  </div>
 
-                  {/* WhatsApp */}
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-[#25D366]/15 text-[#25D366] flex items-center justify-center">
-                      <MessageSquare className="w-5 h-5" />
+                    {/* WhatsApp */}
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full bg-[#25D366]/15 text-[#25D366] flex items-center justify-center">
+                        <MessageSquare className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <span className="text-xs text-gray-500 dark:text-gray-400 block">Official WhatsApp Line</span>
+                        <a
+                          href={getWhatsAppUrl('Hello Rugessa Team, I am inquiring from the website.')}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-base font-semibold text-[#128C7E] dark:text-[#25D366] hover:underline"
+                          title="Open WhatsApp chat with Rugessa"
+                        >
+                          {PHONE_DISPLAY}
+                        </a>
+                      </div>
                     </div>
-                    <div>
-                      <span className="text-xs text-gray-500 block">Official WhatsApp Line</span>
-                      <a
-                        href={getWhatsAppUrl('Hello Rugessa Team, I am inquiring from the website.')}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-base font-semibold text-[#128C7E] dark:text-[#25D366] hover:underline"
-                        title="Open WhatsApp chat with Rugessa"
-                      >
-                        {PHONE_DISPLAY}
-                      </a>
-                    </div>
-                  </div>
 
-                  {/* Email */}
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-[var(--color-teal-50)] dark:bg-[var(--color-teal-900)] text-[var(--color-teal-700)] dark:text-[var(--color-teal-300)] flex items-center justify-center">
-                      <Mail className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <span className="text-xs text-gray-500 block">General & Quotation Email</span>
-                      <a
-                        href={`mailto:${CONTACT_EMAIL}`}
-                        className="text-base font-semibold text-[var(--color-teal-700)] dark:text-[var(--color-teal-300)] hover:underline"
-                      >
-                        {CONTACT_EMAIL}
-                      </a>
+                    {/* Email */}
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full bg-[var(--color-teal-50)] dark:bg-[var(--color-teal-900)] text-[var(--color-teal-700)] dark:text-[var(--color-teal-300)] flex items-center justify-center">
+                        <Mail className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <span className="text-xs text-gray-500 dark:text-gray-400 block">General & Quotation Email</span>
+                        <a
+                          href={`mailto:${CONTACT_EMAIL}`}
+                          className="text-base font-semibold text-[var(--color-teal-700)] dark:text-[var(--color-teal-300)] hover:underline"
+                        >
+                          {CONTACT_EMAIL}
+                        </a>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Physical Facility in Mohammédia */}
-              <div className="pt-4 border-t border-gray-100 dark:border-[#2C2F36] space-y-1 text-xs">
-                <span className="font-semibold text-gray-900 dark:text-white block">
-                  Showroom & Manufacturing Unit:
-                </span>
-                <p className="text-gray-600 dark:text-gray-300 leading-relaxed font-sans">
-                  Sud-Ouest, N° 17, Zone Industrielle<br />
-                  Mohammédia 28810, Morocco
-                </p>
-                <p className="text-[11px] text-gray-500 dark:text-gray-400 pt-1">
-                  Operating Hours: Mon - Fri: 08:30 - 18:00 | Sat: 09:00 - 13:00
-                </p>
-                <a
-                  href="https://maps.google.com/?q=Sud-Ouest+N+17+Zone+Industrielle+Mohammedia+28810+Morocco"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-block text-[11px] text-[var(--color-teal-700)] dark:text-[var(--color-teal-400)] font-semibold underline pt-1"
-                >
-                  View on Google Maps &rarr;
-                </a>
-              </div>
+                {/* Physical Facility in Mohammédia */}
+                <div className="pt-4 border-t border-gray-100 dark:border-[#2C2F36] space-y-1 text-xs">
+                  <span className="font-semibold text-gray-900 dark:text-white block">
+                    Showroom & Manufacturing Unit:
+                  </span>
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed font-sans">
+                    Sud-Ouest, N° 17, Zone Industrielle<br />
+                    Mohammédia 28810, Morocco
+                  </p>
+                  <p className="text-[11px] text-gray-500 dark:text-gray-400 pt-1">
+                    Operating Hours: Mon - Fri: 08:30 - 18:00 | Sat: 09:00 - 13:00
+                  </p>
+                  <a
+                    href="https://maps.google.com/?q=Sud-Ouest+N+17+Zone+Industrielle+Mohammedia+28810+Morocco"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block text-[11px] text-[var(--color-teal-700)] dark:text-[var(--color-teal-400)] font-semibold underline pt-1"
+                  >
+                    View on Google Maps &rarr;
+                  </a>
+                </div>
 
-              {/* Instant Dispatch Actions */}
-              <div className="pt-4 border-t border-gray-100 dark:border-[#2C2F36] space-y-2.5">
-                <span className="text-xs font-semibold text-gray-800 dark:text-gray-200 block">
-                  Priority Dispatch Options:
-                </span>
-                <button
-                  onClick={handleEmailDirect}
-                  className="w-full flex items-center justify-center gap-2 py-3 bg-[var(--color-teal-700)] hover:bg-[var(--color-teal-900)] text-white text-xs font-semibold rounded-xs shadow-xs min-h-[44px] cursor-pointer"
-                >
-                  <Mail className="w-4 h-4" />
-                  <span>Launch Pre-Filled Email</span>
-                </button>
-                <button
-                  onClick={handleWhatsApp}
-                  className="w-full flex items-center justify-center gap-2 py-2.5 bg-[#25D366] hover:bg-[#1EBE5D] text-white text-xs font-semibold rounded-xs shadow-xs min-h-[44px] cursor-pointer"
-                >
-                  <MessageSquare className="w-4 h-4" />
-                  <span>Send Inquiry via WhatsApp ({PHONE_DISPLAY})</span>
-                </button>
+                {/* Instant Dispatch Actions */}
+                <div className="pt-4 border-t border-gray-100 dark:border-[#2C2F36] space-y-2.5">
+                  <span className="text-xs font-semibold text-gray-800 dark:text-gray-200 block">
+                    Priority Dispatch Options:
+                  </span>
+                  <button
+                    onClick={handleEmailDirect}
+                    className="w-full flex items-center justify-center gap-2 py-3 bg-[var(--color-teal-700)] hover:bg-[var(--color-teal-900)] text-white text-xs font-semibold rounded-xs shadow-xs min-h-[44px] cursor-pointer"
+                  >
+                    <Mail className="w-4 h-4" />
+                    <span>Launch Pre-Filled Email</span>
+                  </button>
+                  <button
+                    onClick={handleWhatsApp}
+                    className="w-full flex items-center justify-center gap-2 py-2.5 bg-[#25D366] hover:bg-[#1EBE5D] text-white text-xs font-semibold rounded-xs shadow-xs min-h-[44px] cursor-pointer"
+                  >
+                    <MessageSquare className="w-4 h-4" />
+                    <span>Send Inquiry via WhatsApp ({PHONE_DISPLAY})</span>
+                  </button>
+                </div>
               </div>
-            </div>
+            </ScrollReveal>
 
             {/* Staged Items Card */}
-            <div className="bg-[#FAF8F5] p-6 rounded-sm border border-[#E6E0D6] space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold text-gray-900 flex items-center gap-1.5">
-                  <FileText className="w-4 h-4 text-[var(--color-teal-700)]" />
-                  Staged Quote List
-                </span>
-                <span className="text-xs font-mono font-bold text-[var(--color-teal-700)]">
-                  {items.length} item{items.length === 1 ? '' : 's'}
-                </span>
+            <ScrollReveal direction="up" distance={20} delay={0.08}>
+              <div className="bg-[#FAF8F5] dark:bg-[#1E2126] p-6 rounded-sm border border-[#E6E0D6] dark:border-[#33373E] space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-semibold text-gray-900 dark:text-white flex items-center gap-1.5">
+                    <FileText className="w-4 h-4 text-[var(--color-teal-700)] dark:text-[var(--color-teal-400)]" />
+                    Staged Quote List
+                  </span>
+                  <span className="text-xs font-mono font-bold text-[var(--color-teal-700)] dark:text-[var(--color-teal-300)]">
+                    {items.length} item{items.length === 1 ? '' : 's'}
+                  </span>
+                </div>
+                <p className="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">
+                  {items.length > 0
+                    ? `You currently have ${items.length} carpet model(s) staged. You can launch the full specification drawer to review room dimensions and quantities.`
+                    : 'Your specification list is currently empty. You can submit a general message or explore the collections to add carpets.'}
+                </p>
+                {items.length > 0 && (
+                  <button
+                    onClick={openDrawer}
+                    className="w-full py-2.5 bg-white dark:bg-[#25282F] border border-gray-300 dark:border-[#383C44] hover:border-gray-500 text-xs font-semibold text-gray-800 dark:text-gray-200 rounded-xs min-h-[44px] cursor-pointer"
+                  >
+                    Open Specification Drawer
+                  </button>
+                )}
               </div>
-              <p className="text-xs text-gray-600 leading-relaxed">
-                {items.length > 0
-                  ? `You currently have ${items.length} carpet model(s) staged. You can launch the full specification drawer to review room dimensions and quantities.`
-                  : 'Your specification list is currently empty. You can submit a general message or explore the collections to add carpets.'}
-              </p>
-              {items.length > 0 && (
-                <button
-                  onClick={openDrawer}
-                  className="w-full py-2.5 bg-white border border-gray-300 hover:border-gray-500 text-xs font-semibold text-gray-800 rounded-xs min-h-[44px] cursor-pointer"
-                >
-                  Open Specification Drawer
-                </button>
-              )}
-            </div>
+            </ScrollReveal>
           </div>
 
-          {/* Right Column: Inquiry Form */}
-          <div className="lg:col-span-7 bg-white p-6 sm:p-10 rounded-sm border border-[var(--border-subtle)] shadow-xs">
+          {/* Right Column: Inquiry Form with ScrollReveal */}
+          <div className="lg:col-span-7">
+            <ScrollReveal direction="up" distance={28} delay={0.05}>
+              <div className="bg-white dark:bg-[#181A1D] p-6 sm:p-10 rounded-sm border border-[var(--border-subtle)] dark:border-[#2C2F36] shadow-xs">
+
             {submitted ? (
               <div className="text-center py-10 space-y-4">
                 <div className="w-16 h-16 rounded-full bg-green-100 text-green-700 flex items-center justify-center mx-auto">
@@ -385,6 +395,8 @@ export const ContactPage: React.FC = () => {
                 </div>
               </form>
             )}
+              </div>
+            </ScrollReveal>
           </div>
         </div>
       </div>

@@ -6,6 +6,7 @@ import { MobileMenu } from './components/MobileMenu';
 import { QuoteDrawer } from './components/QuoteDrawer';
 import { BottomActionBar } from './components/BottomActionBar';
 import { Footer } from './components/Footer';
+import { ScrollProgressBar } from './components/ScrollReveal';
 import { HomePage } from './pages/HomePage';
 import { CollectionsPage } from './pages/CollectionsPage';
 import { ContractTradePage } from './pages/ContractTradePage';
@@ -50,6 +51,9 @@ export default function App() {
     <ThemeProvider>
       <QuoteProvider>
         <div className="min-h-screen bg-[var(--surface-canvas)] text-[var(--color-text-primary)] flex flex-col selection:bg-[var(--color-teal-100)] selection:text-[var(--color-teal-900)]">
+          {/* Top Scroll Indicator */}
+          <ScrollProgressBar />
+
           {/* Accessible Skip Link for Keyboard Navigation */}
           <a
             href="#main-content"

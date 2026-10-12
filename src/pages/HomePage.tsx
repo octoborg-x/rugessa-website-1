@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, useScroll, useTransform } from 'motion/react';
 import productsData from '../../data/products.json';
 import siteData from '../../data/site.json';
 import { useQuote } from '../context/QuoteContext';
 import { RugCalculator } from '../components/RugCalculator';
 import { ProductDetailModal } from '../components/ProductDetailModal';
+import { ScrollReveal, Parallax } from '../components/ScrollReveal';
 import {
   FileText,
   ArrowRight,
@@ -43,6 +45,14 @@ export const HomePage: React.FC<HomePageProps> = ({
   const [stainQuery, setStainQuery] = useState<string>('');
   const [addedSkuMap, setAddedSkuMap] = useState<Record<string, boolean>>({});
   const [modalProduct, setModalProduct] = useState<typeof productsData[0] | null>(null);
+
+  const heroRef = useRef<HTMLElement>(null);
+  const { scrollYProgress: heroScrollProgress } = useScroll({
+    target: heroRef,
+    offset: ['start start', 'end start'],
+  });
+  const heroBackgroundY = useTransform(heroScrollProgress, [0, 1], ['0%', '22%']);
+  const heroContentY = useTransform(heroScrollProgress, [0, 1], ['0%', '10%']);
 
   const collections = Array.from(new Set(productsData.map((p) => p.collection)));
 
@@ -140,12 +150,16 @@ export const HomePage: React.FC<HomePageProps> = ({
       {/* SECTION 1: HERO PROPOSITION WITH FULL-WIDTH & HEIGHT VISIBLE CARPET BACKGROUND SLIDER */}
       <section
         id="hero"
+        ref={heroRef}
         className="relative w-full min-h-[92vh] sm:min-h-screen flex items-center justify-center bg-[#0D0E11] text-white pt-24 sm:pt-28 pb-16 sm:pb-20 border-b border-[#24272D] overflow-hidden"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
       >
-        {/* Full Width & Height Visible Slider Images */}
-        <div className="absolute inset-0 z-0 overflow-hidden">
+        {/* Full Width & Height Visible Slider Images with Subtle Vertical Parallax */}
+        <motion.div
+          style={{ y: heroBackgroundY }}
+          className="absolute inset-0 z-0 overflow-hidden"
+        >
           {heroSlides.map((slide, idx) => (
             <div
               key={slide.sku}
@@ -173,9 +187,12 @@ export const HomePage: React.FC<HomePageProps> = ({
           <div className="absolute inset-0 bg-gradient-to-t from-[#0D0E11] via-transparent to-black/45 z-10" />
           {/* Warm subtle ambient tint */}
           <div className="absolute inset-0 bg-black/15 z-10" />
-        </div>
+        </motion.div>
 
-        <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <motion.div
+          style={{ y: heroContentY }}
+          className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full"
+        >
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             {/* Left Narrative Column */}
             <div className="lg:col-span-7 space-y-6">
@@ -328,109 +345,112 @@ export const HomePage: React.FC<HomePageProps> = ({
               </div>
             </div>
 
-            {/* Right Architectural Spec Column — Visual link to background carpet */}
-            <div className="lg:col-span-5 space-y-4">
-              {/* Featured Active Background Carpet Card */}
-              <div className="p-5 sm:p-6 rounded-sm bg-black/60 dark:bg-[#15171B]/85 backdrop-blur-md border border-white/25 shadow-2xl space-y-4">
-                <div className="flex items-center justify-between gap-2">
-                  <div className="flex items-center gap-1.5">
-                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                    <span className="text-[11px] font-mono tracking-wider uppercase text-[#88CCD0] font-semibold">
-                      Background Carpet Texture
+            {/* Right Architectural Spec Column — Visual link to background carpet with Parallax */}
+            <Parallax speed={28} className="lg:col-span-5">
+              <div className="space-y-4">
+                {/* Featured Active Background Carpet Card */}
+                <div className="p-5 sm:p-6 rounded-sm bg-black/60 dark:bg-[#15171B]/85 backdrop-blur-md border border-white/25 shadow-2xl space-y-4">
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                      <span className="text-[11px] font-mono tracking-wider uppercase text-[#88CCD0] font-semibold">
+                        Background Carpet Texture
+                      </span>
+                    </div>
+                    <span className="text-[11px] font-mono px-2 py-0.5 rounded-xs bg-white/10 text-[var(--color-gold-300)] font-semibold">
+                      {currentActiveSlide.badge}
                     </span>
                   </div>
-                  <span className="text-[11px] font-mono px-2 py-0.5 rounded-xs bg-white/10 text-[var(--color-gold-300)] font-semibold">
-                    {currentActiveSlide.badge}
-                  </span>
-                </div>
 
-                {/* Thumbnail Preview & Title */}
-                <div className="flex items-start gap-4">
-                  <div className="w-20 h-20 rounded-xs overflow-hidden border border-white/30 shrink-0 relative group shadow-md">
-                    <img
-                      src={currentActiveSlide.image}
-                      alt={currentActiveSlide.collection}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => activeProductData && setModalProduct(activeProductData)}
-                      className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
-                      title="Inspect full image & specs"
-                    >
-                      <Eye className="w-4 h-4 text-white" />
-                    </button>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="text-xl sm:text-2xl font-serif text-white leading-tight">
-                      {currentActiveSlide.collection}
-                    </h3>
-                    <p className="text-xs font-mono text-[var(--color-gold-300)] mt-0.5">
-                      Model SKU: {currentActiveSlide.sku}
-                    </p>
-                    <p className="text-[11px] text-gray-300 leading-snug mt-1.5">
-                      {currentActiveSlide.spec}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="pt-3 border-t border-white/15 flex items-center justify-between gap-2">
-                  <span className="text-[10px] font-mono text-gray-400">
-                    {currentActiveSlide.texture}
-                  </span>
-
-                  <div className="flex items-center gap-2">
-                    {activeProductData && (
+                  {/* Thumbnail Preview & Title */}
+                  <div className="flex items-start gap-4">
+                    <div className="w-20 h-20 rounded-xs overflow-hidden border border-white/30 shrink-0 relative group shadow-md">
+                      <img
+                        src={currentActiveSlide.image}
+                        alt={currentActiveSlide.collection}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      />
                       <button
                         type="button"
-                        onClick={() => setModalProduct(activeProductData)}
-                        className="text-xs px-2.5 py-1.5 rounded-xs bg-white/10 hover:bg-white/20 text-white font-medium transition-colors cursor-pointer flex items-center gap-1"
+                        onClick={() => activeProductData && setModalProduct(activeProductData)}
+                        className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+                        title="Inspect full image & specs"
                       >
-                        <Eye className="w-3.5 h-3.5" />
-                        <span>Specs</span>
+                        <Eye className="w-4 h-4 text-white" />
                       </button>
-                    )}
-                    {activeProductData && (
-                      <button
-                        type="button"
-                        onClick={() => handleAddProduct(activeProductData)}
-                        className="text-xs px-3 py-1.5 rounded-xs bg-[var(--color-teal-600)] hover:bg-[var(--color-teal-500)] text-white font-semibold transition-colors cursor-pointer flex items-center gap-1 shadow-xs"
-                      >
-                        {addedSkuMap[activeProductData.id] ? (
-                          <>
-                            <Check className="w-3.5 h-3.5" />
-                            <span>Added</span>
-                          </>
-                        ) : (
-                          <>
-                            <FileText className="w-3.5 h-3.5" />
-                            <span>Add to Quote</span>
-                          </>
-                        )}
-                      </button>
-                    )}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-xl sm:text-2xl font-serif text-white leading-tight">
+                        {currentActiveSlide.collection}
+                      </h3>
+                      <p className="text-xs font-mono text-[var(--color-gold-300)] mt-0.5">
+                        Model SKU: {currentActiveSlide.sku}
+                      </p>
+                      <p className="text-[11px] text-gray-300 leading-snug mt-1.5">
+                        {currentActiveSlide.spec}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="pt-3 border-t border-white/15 flex items-center justify-between gap-2">
+                    <span className="text-[10px] font-mono text-gray-400">
+                      {currentActiveSlide.texture}
+                    </span>
+
+                    <div className="flex items-center gap-2">
+                      {activeProductData && (
+                        <button
+                          type="button"
+                          onClick={() => setModalProduct(activeProductData)}
+                          className="text-xs px-2.5 py-1.5 rounded-xs bg-white/10 hover:bg-white/20 text-white font-medium transition-colors cursor-pointer flex items-center gap-1"
+                        >
+                          <Eye className="w-3.5 h-3.5" />
+                          <span>Specs</span>
+                        </button>
+                      )}
+                      {activeProductData && (
+                        <button
+                          type="button"
+                          onClick={() => handleAddProduct(activeProductData)}
+                          className="text-xs px-3 py-1.5 rounded-xs bg-[var(--color-teal-600)] hover:bg-[var(--color-teal-500)] text-white font-semibold transition-colors cursor-pointer flex items-center gap-1 shadow-xs"
+                        >
+                          {addedSkuMap[activeProductData.id] ? (
+                            <>
+                              <Check className="w-3.5 h-3.5" />
+                              <span>Added</span>
+                            </>
+                          ) : (
+                            <>
+                              <FileText className="w-3.5 h-3.5" />
+                              <span>Add to Quote</span>
+                            </>
+                          )}
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Commercial Standard Specification Card */}
+                <div className="p-4 sm:p-5 bg-black/55 dark:bg-[#181A1D]/85 backdrop-blur-md rounded-sm border border-white/15 dark:border-[#33373E] shadow-xl flex items-start gap-3.5">
+                  <div className="w-9 h-9 rounded-full bg-[var(--color-teal-700)] text-white flex items-center justify-center shrink-0 mt-0.5 shadow-xs">
+                    <ShieldCheck className="w-5 h-5" />
+                  </div>
+                  <div className="flex-1 min-w-0 text-left">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-sm font-semibold text-white">Commercial Standard</span>
+                      <span className="text-[10px] font-mono text-[var(--color-teal-300)] font-bold">15+ Yrs Factory Heritage</span>
+                    </div>
+                    <p className="text-xs text-gray-300 leading-relaxed mt-1">
+                      Precision machine-woven textiles engineered for prolonged resilience, dimensional stability, and easy spot maintenance.
+                    </p>
                   </div>
                 </div>
               </div>
+            </Parallax>
 
-              {/* Commercial Standard Specification Card */}
-              <div className="p-4 sm:p-5 bg-black/55 dark:bg-[#181A1D]/85 backdrop-blur-md rounded-sm border border-white/15 dark:border-[#33373E] shadow-xl flex items-start gap-3.5">
-                <div className="w-9 h-9 rounded-full bg-[var(--color-teal-700)] text-white flex items-center justify-center shrink-0 mt-0.5 shadow-xs">
-                  <ShieldCheck className="w-5 h-5" />
-                </div>
-                <div className="flex-1 min-w-0 text-left">
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="text-sm font-semibold text-white">Commercial Standard</span>
-                    <span className="text-[10px] font-mono text-[var(--color-teal-300)] font-bold">15+ Yrs Factory Heritage</span>
-                  </div>
-                  <p className="text-xs text-gray-300 leading-relaxed mt-1">
-                    Precision machine-woven textiles engineered for prolonged resilience, dimensional stability, and easy spot maintenance.
-                  </p>
-                </div>
-              </div>
-            </div>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* SECTION 2: VISUAL COLLECTION INDEX */}
@@ -438,98 +458,110 @@ export const HomePage: React.FC<HomePageProps> = ({
       <section id="collections" className="py-20 bg-white dark:bg-[#121417] border-b border-[var(--border-subtle)] dark:border-[#2C2F36] transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
-            <div>
-              <span className="text-xs font-mono uppercase tracking-widest text-[var(--color-teal-700)] dark:text-[var(--color-teal-400)] font-semibold block mb-2">
-                Curated Loom Archive
-              </span>
-              <h2 className="text-3xl sm:text-4xl font-light text-[var(--color-text-primary)] font-serif">
-                The Ten Machine-Woven Collections
-              </h2>
-              <p className="text-sm text-[var(--color-text-secondary)] mt-2 font-light max-w-xl">
-                Every genuine category crawled from Rugessa's operational catalog. Explore dense shaggies, geometric heatsets, and classic motifs.
-              </p>
-            </div>
+            <ScrollReveal direction="up" distance={24}>
+              <div>
+                <span className="text-xs font-mono uppercase tracking-widest text-[var(--color-teal-700)] dark:text-[var(--color-teal-400)] font-semibold block mb-2">
+                  Curated Loom Archive
+                </span>
+                <h2 className="text-3xl sm:text-4xl font-light text-[var(--color-text-primary)] font-serif">
+                  The Ten Machine-Woven Collections
+                </h2>
+                <p className="text-sm text-[var(--color-text-secondary)] mt-2 font-light max-w-xl">
+                  Every genuine category crawled from Rugessa's operational catalog. Explore dense shaggies, geometric heatsets, and classic motifs.
+                </p>
+              </div>
+            </ScrollReveal>
 
             {/* Filter Pills */}
-            <div className="flex flex-wrap gap-1.5 bg-[#FAF8F5] dark:bg-[#1A1C1E] p-1.5 rounded-sm border border-[#E6E0D6] dark:border-[#33373E] max-w-xl">
-              <button
-                onClick={() => setSelectedFilter('all')}
-                className={`px-3 py-1.5 text-xs rounded-xs font-medium transition-all cursor-pointer ${
-                  selectedFilter === 'all'
-                    ? 'bg-[var(--color-teal-700)] text-white shadow-xs font-semibold'
-                    : 'text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white'
-                }`}
-              >
-                All (33)
-              </button>
-              {collections.map((col) => (
+            <ScrollReveal direction="up" distance={20} delay={0.08}>
+              <div className="flex flex-wrap gap-1.5 bg-[#FAF8F5] dark:bg-[#1A1C1E] p-1.5 rounded-sm border border-[#E6E0D6] dark:border-[#33373E] max-w-xl">
                 <button
-                  key={col}
-                  onClick={() => setSelectedFilter(col)}
-                  className={`px-2.5 py-1.5 text-xs rounded-xs font-medium transition-all cursor-pointer ${
-                    selectedFilter === col
+                  onClick={() => setSelectedFilter('all')}
+                  className={`px-3 py-1.5 text-xs rounded-xs font-medium transition-all cursor-pointer ${
+                    selectedFilter === 'all'
                       ? 'bg-[var(--color-teal-700)] text-white shadow-xs font-semibold'
                       : 'text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white'
                   }`}
                 >
-                  {col}
+                  All (33)
                 </button>
-              ))}
-            </div>
+                {collections.map((col) => (
+                  <button
+                    key={col}
+                    onClick={() => setSelectedFilter(col)}
+                    className={`px-2.5 py-1.5 text-xs rounded-xs font-medium transition-all cursor-pointer ${
+                      selectedFilter === col
+                        ? 'bg-[var(--color-teal-700)] text-white shadow-xs font-semibold'
+                        : 'text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white'
+                    }`}
+                  >
+                    {col}
+                  </button>
+                ))}
+              </div>
+            </ScrollReveal>
           </div>
 
           {/* 10 Collections Visual Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {collections.map((colName) => {
+            {collections.map((colName, idx) => {
               const colProducts = productsData.filter((p) => p.collection === colName);
               const previewProduct = colProducts[0];
               const isSelected = selectedFilter === colName;
 
               return (
-                <div
+                <ScrollReveal
                   key={colName}
-                  className={`group bg-[var(--surface-canvas)] border rounded-sm overflow-hidden transition-all duration-300 flex flex-col ${
-                    isSelected
-                      ? 'border-[var(--color-teal-700)] ring-1 ring-[var(--color-teal-700)] shadow-md'
-                      : 'border-[var(--border-subtle)] hover:border-gray-400 hover:shadow-xs'
-                  }`}
+                  direction="up"
+                  distance={32}
+                  delay={0.06 * (idx % 3)}
+                  scale={0.98}
+                  className="h-full"
                 >
-                  <div className="relative aspect-16/10 bg-gray-100 overflow-hidden">
-                    <img
-                      src={previewProduct?.images[0]?.src}
-                      alt={`Rugessa ${colName} Carpet Collection`}
-                      className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500"
-                      loading="lazy"
-                    />
-                    <div className="absolute top-3 left-3 bg-white/95 backdrop-blur-xs text-gray-900 text-xs font-mono font-bold px-2.5 py-1 rounded-xs">
-                      {colProducts.length} Model{colProducts.length === 1 ? '' : 's'}
-                    </div>
-                  </div>
-
-                  <div className="p-6 flex-1 flex flex-col justify-between">
-                    <div>
-                      <h3 className="text-xl font-normal font-serif text-[var(--color-text-primary)] mb-2">
-                        {colName}
-                      </h3>
-                      <p className="text-xs text-gray-600 line-clamp-2 leading-relaxed mb-4">
-                        {previewProduct?.display_copy}
-                      </p>
+                  <div
+                    className={`group bg-[var(--surface-canvas)] border rounded-sm overflow-hidden transition-all duration-300 flex flex-col h-full ${
+                      isSelected
+                        ? 'border-[var(--color-teal-700)] ring-1 ring-[var(--color-teal-700)] shadow-md'
+                        : 'border-[var(--border-subtle)] hover:border-gray-400 hover:shadow-xs'
+                    }`}
+                  >
+                    <div className="relative aspect-16/10 bg-gray-100 overflow-hidden">
+                      <img
+                        src={previewProduct?.images[0]?.src}
+                        alt={`Rugessa ${colName} Carpet Collection`}
+                        className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500"
+                        loading="lazy"
+                      />
+                      <div className="absolute top-3 left-3 bg-white/95 backdrop-blur-xs text-gray-900 text-xs font-mono font-bold px-2.5 py-1 rounded-xs">
+                        {colProducts.length} Model{colProducts.length === 1 ? '' : 's'}
+                      </div>
                     </div>
 
-                    <div className="pt-4 border-t border-[#E6E0D6] flex items-center justify-between">
-                      <span className="text-[11px] font-mono text-gray-400">
-                        Series Ref: {previewProduct?.sku}
-                      </span>
-                      <button
-                        onClick={() => setSelectedFilter(colName)}
-                        className="text-xs font-semibold text-[var(--color-teal-700)] group-hover:translate-x-0.5 transition-transform flex items-center gap-1 cursor-pointer"
-                      >
-                        <span>View Models</span>
-                        <ArrowRight className="w-3.5 h-3.5" />
-                      </button>
+                    <div className="p-6 flex-1 flex flex-col justify-between">
+                      <div>
+                        <h3 className="text-xl font-normal font-serif text-[var(--color-text-primary)] mb-2">
+                          {colName}
+                        </h3>
+                        <p className="text-xs text-gray-600 line-clamp-2 leading-relaxed mb-4">
+                          {previewProduct?.display_copy}
+                        </p>
+                      </div>
+
+                      <div className="pt-4 border-t border-[#E6E0D6] flex items-center justify-between">
+                        <span className="text-[11px] font-mono text-gray-400">
+                          Series Ref: {previewProduct?.sku}
+                        </span>
+                        <button
+                          onClick={() => setSelectedFilter(colName)}
+                          className="text-xs font-semibold text-[var(--color-teal-700)] group-hover:translate-x-0.5 transition-transform flex items-center gap-1 cursor-pointer"
+                        >
+                          <span>View Models</span>
+                          <ArrowRight className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </ScrollReveal>
               );
             })}
           </div>
@@ -540,103 +572,113 @@ export const HomePage: React.FC<HomePageProps> = ({
       {/* Q: What individual models and colorways can I specify right now? */}
       <section className="py-20 bg-[var(--surface-canvas)] border-b border-[var(--border-subtle)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-10">
-            <div>
-              <span className="text-xs font-mono uppercase tracking-widest text-[var(--color-teal-700)] font-semibold block mb-1">
-                Active Catalog Selection
-              </span>
-              <h2 className="text-3xl font-light font-serif text-[var(--color-text-primary)]">
-                {selectedFilter === 'all'
-                  ? 'All 33 Machine-Woven Carpets'
-                  : `${selectedFilter} Series (${filteredProducts.length} SKUs)`}
-              </h2>
+          <ScrollReveal direction="up" distance={24}>
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-10">
+              <div>
+                <span className="text-xs font-mono uppercase tracking-widest text-[var(--color-teal-700)] font-semibold block mb-1">
+                  Active Catalog Selection
+                </span>
+                <h2 className="text-3xl font-light font-serif text-[var(--color-text-primary)]">
+                  {selectedFilter === 'all'
+                    ? 'All 33 Machine-Woven Carpets'
+                    : `${selectedFilter} Series (${filteredProducts.length} SKUs)`}
+                </h2>
+              </div>
+              {selectedFilter !== 'all' && (
+                <button
+                  onClick={() => setSelectedFilter('all')}
+                  className="text-xs text-[var(--color-teal-700)] font-semibold underline cursor-pointer"
+                >
+                  Reset to All 33 Carpets
+                </button>
+              )}
             </div>
-            {selectedFilter !== 'all' && (
-              <button
-                onClick={() => setSelectedFilter('all')}
-                className="text-xs text-[var(--color-teal-700)] font-semibold underline cursor-pointer"
-              >
-                Reset to All 33 Carpets
-              </button>
-            )}
-          </div>
+          </ScrollReveal>
 
           {/* SKU Cards Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {filteredProducts.map((product) => {
+            {filteredProducts.map((product, idx) => {
               const isAdded = addedSkuMap[product.id];
               return (
-                <div
+                <ScrollReveal
                   key={product.id}
-                  className="bg-white rounded-sm border border-[var(--border-subtle)] overflow-hidden shadow-2xs hover:shadow-md transition-all flex flex-col group"
+                  direction="up"
+                  distance={28}
+                  delay={0.03 * (idx % 4)}
+                  scale={0.98}
+                  className="h-full"
                 >
-                  <div className="relative aspect-4/3 bg-gray-100 overflow-hidden cursor-pointer group" onClick={() => setModalProduct(product)}>
-                    <img
-                      src={product.images[0]?.src}
-                      alt={product.images[0]?.alt}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      loading="lazy"
-                    />
-                    <div className="absolute top-2.5 left-2.5 bg-black/80 backdrop-blur-xs text-white text-[11px] font-mono px-2 py-0.5 rounded-xs">
-                      {product.sku}
-                    </div>
-                    <div className="absolute top-2.5 right-2.5 bg-white/90 text-gray-800 text-[10px] font-semibold px-2 py-0.5 rounded-xs">
-                      {product.collection}
-                    </div>
-                    <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                      <span className="px-2.5 py-1 bg-white/95 text-gray-900 text-[11px] font-semibold rounded-xs shadow-xs flex items-center gap-1">
-                        <Eye className="w-3.5 h-3.5 text-[var(--color-teal-700)]" />
-                        Quick View
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="p-4 flex-1 flex flex-col justify-between">
-                    <div>
-                      <h4
-                        onClick={() => setModalProduct(product)}
-                        className="font-semibold text-sm text-[var(--color-text-primary)] mb-1 hover:text-[var(--color-teal-700)] cursor-pointer transition-colors"
-                      >
-                        {product.name_verbatim}
-                      </h4>
-                      <p className="text-xs text-gray-500 line-clamp-2 leading-relaxed mb-4">
-                        {product.display_copy}
-                      </p>
+                  <div
+                    className="bg-white rounded-sm border border-[var(--border-subtle)] overflow-hidden shadow-2xs hover:shadow-md transition-all flex flex-col h-full group"
+                  >
+                    <div className="relative aspect-4/3 bg-gray-100 overflow-hidden cursor-pointer group" onClick={() => setModalProduct(product)}>
+                      <img
+                        src={product.images[0]?.src}
+                        alt={product.images[0]?.alt}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        loading="lazy"
+                      />
+                      <div className="absolute top-2.5 left-2.5 bg-black/80 backdrop-blur-xs text-white text-[11px] font-mono px-2 py-0.5 rounded-xs">
+                        {product.sku}
+                      </div>
+                      <div className="absolute top-2.5 right-2.5 bg-white/90 text-gray-800 text-[10px] font-semibold px-2 py-0.5 rounded-xs">
+                        {product.collection}
+                      </div>
+                      <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <span className="px-2.5 py-1 bg-white/95 text-gray-900 text-[11px] font-semibold rounded-xs shadow-xs flex items-center gap-1">
+                          <Eye className="w-3.5 h-3.5 text-[var(--color-teal-700)]" />
+                          Quick View
+                        </span>
+                      </div>
                     </div>
 
-                    <div className="flex items-center gap-2">
-                      <button
-                        onClick={() => setModalProduct(product)}
-                        className="p-2.5 text-xs text-gray-700 hover:text-gray-900 bg-gray-100 hover:bg-gray-200 rounded-xs transition-colors cursor-pointer min-h-[44px] min-w-[44px] flex items-center justify-center"
-                        title="View specifications"
-                        aria-label={`View specs for ${product.name_verbatim}`}
-                      >
-                        <Eye className="w-4 h-4" />
-                      </button>
-                      <button
-                        onClick={() => handleAddProduct(product)}
-                        className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 text-xs font-semibold rounded-xs transition-all cursor-pointer min-h-[44px] ${
-                          isAdded
-                            ? 'bg-green-700 text-white'
-                            : 'bg-[var(--surface-canvas)] hover:bg-[var(--color-teal-700)] text-gray-800 hover:text-white border border-gray-200'
-                        }`}
-                        aria-label={`Add ${product.name_verbatim} to Quote`}
-                      >
-                        {isAdded ? (
-                          <>
-                            <Check className="w-3.5 h-3.5" />
-                            <span>Added to Quote</span>
-                          </>
-                        ) : (
-                          <>
-                            <FileText className="w-3.5 h-3.5" />
-                            <span>Add to Quote RFP</span>
-                          </>
-                        )}
-                      </button>
+                    <div className="p-4 flex-1 flex flex-col justify-between">
+                      <div>
+                        <h4
+                          onClick={() => setModalProduct(product)}
+                          className="font-semibold text-sm text-[var(--color-text-primary)] mb-1 hover:text-[var(--color-teal-700)] cursor-pointer transition-colors"
+                        >
+                          {product.name_verbatim}
+                        </h4>
+                        <p className="text-xs text-gray-500 line-clamp-2 leading-relaxed mb-4">
+                          {product.display_copy}
+                        </p>
+                      </div>
+
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => setModalProduct(product)}
+                          className="p-2.5 text-xs text-gray-700 hover:text-gray-900 bg-gray-100 hover:bg-gray-200 rounded-xs transition-colors cursor-pointer min-h-[44px] min-w-[44px] flex items-center justify-center"
+                          title="View specifications"
+                          aria-label={`View specs for ${product.name_verbatim}`}
+                        >
+                          <Eye className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={() => handleAddProduct(product)}
+                          className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 text-xs font-semibold rounded-xs transition-all cursor-pointer min-h-[44px] ${
+                            isAdded
+                              ? 'bg-green-700 text-white'
+                              : 'bg-[var(--surface-canvas)] hover:bg-[var(--color-teal-700)] text-gray-800 hover:text-white border border-gray-200'
+                          }`}
+                          aria-label={`Add ${product.name_verbatim} to Quote`}
+                        >
+                          {isAdded ? (
+                            <>
+                              <Check className="w-3.5 h-3.5" />
+                              <span>Added to Quote</span>
+                            </>
+                          ) : (
+                            <>
+                              <FileText className="w-3.5 h-3.5" />
+                              <span>Add to Quote RFP</span>
+                            </>
+                          )}
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </ScrollReveal>
               );
             })}
           </div>
@@ -644,14 +686,16 @@ export const HomePage: React.FC<HomePageProps> = ({
       </section>
 
       {/* SECTION 4: PARAMETRIC SPACE & AREA ESTIMATOR */}
-      <RugCalculator />
+      <ScrollReveal direction="up" distance={30}>
+        <RugCalculator />
+      </ScrollReveal>
 
       {/* SECTION 5: MASTER WEAVER HERITAGE */}
       {/* Q: Can I trust Rugessa's operational reliability and delivery promises? */}
       <section id="heritage" className="py-20 bg-white border-b border-[var(--border-subtle)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            <div className="lg:col-span-5 space-y-4">
+            <ScrollReveal direction="right" distance={30} className="lg:col-span-5 space-y-4">
               <span className="text-xs font-mono uppercase tracking-widest text-[var(--color-teal-700)] font-semibold block">
                 Corporate Foundations
               </span>
@@ -663,24 +707,31 @@ export const HomePage: React.FC<HomePageProps> = ({
                   "{siteData.brand.history_verbatim}"
                 </p>
               </div>
-            </div>
+            </ScrollReveal>
 
             <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-6">
               {siteData.brand.core_principles.map((principle, idx) => (
-                <div
+                <ScrollReveal
                   key={idx}
-                  className="p-6 bg-[#FAF8F5] border border-[#E6E0D6] rounded-xs shadow-2xs hover:shadow-xs transition-shadow"
+                  direction="up"
+                  distance={26}
+                  delay={0.08 * idx}
+                  scale={0.98}
                 >
-                  <div className="w-10 h-10 rounded-full bg-[var(--color-teal-50)] text-[var(--color-teal-700)] flex items-center justify-center font-bold text-sm mb-4">
-                    0{idx + 1}
+                  <div
+                    className="p-6 bg-[#FAF8F5] border border-[#E6E0D6] rounded-xs shadow-2xs hover:shadow-xs transition-shadow h-full"
+                  >
+                    <div className="w-10 h-10 rounded-full bg-[var(--color-teal-50)] text-[var(--color-teal-700)] flex items-center justify-center font-bold text-sm mb-4">
+                      0{idx + 1}
+                    </div>
+                    <h4 className="font-semibold text-sm text-[var(--color-text-primary)] mb-2">
+                      {principle}
+                    </h4>
+                    <p className="text-xs text-gray-600 leading-relaxed">
+                      Continuous operational investments assure dependable fiber consistency, rigorous batch inspection, and international delivery.
+                    </p>
                   </div>
-                  <h4 className="font-semibold text-sm text-[var(--color-text-primary)] mb-2">
-                    {principle}
-                  </h4>
-                  <p className="text-xs text-gray-600 leading-relaxed">
-                    Continuous operational investments assure dependable fiber consistency, rigorous batch inspection, and international delivery.
-                  </p>
-                </div>
+                </ScrollReveal>
               ))}
             </div>
           </div>
@@ -691,7 +742,7 @@ export const HomePage: React.FC<HomePageProps> = ({
       {/* Q: How do I protect and maintain my Rugessa carpet after installation? */}
       <section id="care" className="py-20 bg-[var(--surface-canvas)] border-b border-[var(--border-subtle)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-14">
+          <ScrollReveal direction="up" distance={28} className="text-center max-w-2xl mx-auto mb-14">
             <span className="text-xs font-mono uppercase tracking-widest text-[var(--color-teal-700)] font-semibold block mb-2">
               Textile Care Knowledge
             </span>
@@ -701,70 +752,74 @@ export const HomePage: React.FC<HomePageProps> = ({
             <p className="text-sm text-[var(--color-text-secondary)] mt-2 font-light">
               Preserve yarn luster, pile volume, and hygiene with Rugessa's verified maintenance recommendations and 33 specific stain removal procedures.
             </p>
-          </div>
+          </ScrollReveal>
 
           {/* Quick Search Stain Box */}
-          <div className="bg-white p-6 sm:p-8 rounded-sm border border-[var(--border-subtle)] shadow-xs mb-12">
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-              <div className="flex items-center gap-3">
-                <Droplets className="w-6 h-6 text-[var(--color-teal-700)]" />
-                <h3 className="text-lg font-semibold text-gray-900">
-                  Search 33 Stain Treatment Procedures
-                </h3>
-              </div>
-              <div className="relative w-full sm:w-72">
-                <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                <input
-                  type="text"
-                  value={stainQuery}
-                  onChange={(e) => setStainQuery(e.target.value)}
-                  placeholder="e.g. coffee, ink, grease..."
-                  className="w-full pl-9 pr-3 py-2 text-xs bg-gray-50 border border-gray-200 rounded-xs focus:outline-hidden focus:border-[var(--color-teal-700)]"
-                  aria-label="Search stain recipes"
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 max-h-72 overflow-y-auto pr-1">
-              {filteredStains.slice(0, 9).map((s, idx) => (
-                <div
-                  key={idx}
-                  className="p-4 rounded-xs border border-gray-100 bg-[#FAF8F5] hover:border-[var(--color-teal-500)] transition-colors"
-                >
-                  <span className="font-semibold text-xs text-[var(--color-teal-900)] block mb-1">
-                    {s.stain}
-                  </span>
-                  <p className="text-xs text-gray-600 leading-snug">
-                    {s.treatment}
-                  </p>
+          <ScrollReveal direction="up" distance={28}>
+            <div className="bg-white p-6 sm:p-8 rounded-sm border border-[var(--border-subtle)] shadow-xs mb-12">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+                <div className="flex items-center gap-3">
+                  <Droplets className="w-6 h-6 text-[var(--color-teal-700)]" />
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    Search 33 Stain Treatment Procedures
+                  </h3>
                 </div>
-              ))}
+                <div className="relative w-full sm:w-72">
+                  <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                  <input
+                    type="text"
+                    value={stainQuery}
+                    onChange={(e) => setStainQuery(e.target.value)}
+                    placeholder="e.g. coffee, ink, grease..."
+                    className="w-full pl-9 pr-3 py-2 text-xs bg-gray-50 border border-gray-200 rounded-xs focus:outline-hidden focus:border-[var(--color-teal-700)]"
+                    aria-label="Search stain recipes"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 max-h-72 overflow-y-auto pr-1">
+                {filteredStains.slice(0, 9).map((s, idx) => (
+                  <div
+                    key={idx}
+                    className="p-4 rounded-xs border border-gray-100 bg-[#FAF8F5] hover:border-[var(--color-teal-500)] transition-colors"
+                  >
+                    <span className="font-semibold text-xs text-[var(--color-teal-900)] block mb-1">
+                      {s.stain}
+                    </span>
+                    <p className="text-xs text-gray-600 leading-snug">
+                      {s.treatment}
+                    </p>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+          </ScrollReveal>
 
           {/* 12 Care Points Summary Preview */}
-          <div className="bg-white p-6 sm:p-8 rounded-sm border border-[var(--border-subtle)]">
-            <div className="flex items-center gap-3 mb-6">
-              <BookOpen className="w-5 h-5 text-[var(--color-olive-700)]" />
-              <h3 className="text-base font-semibold text-gray-900">
-                Core Carpet Maintenance Rules (Excerpt)
-              </h3>
+          <ScrollReveal direction="up" distance={24} delay={0.06}>
+            <div className="bg-white p-6 sm:p-8 rounded-sm border border-[var(--border-subtle)]">
+              <div className="flex items-center gap-3 mb-6">
+                <BookOpen className="w-5 h-5 text-[var(--color-olive-700)]" />
+                <h3 className="text-base font-semibold text-gray-900">
+                  Core Carpet Maintenance Rules (Excerpt)
+                </h3>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {siteData.care_guide.points.slice(0, 3).map((pt, idx) => (
+                  <div key={idx} className="p-4 rounded-xs bg-[#FAF8F5] border border-gray-100 text-xs text-gray-700 leading-relaxed">
+                    {pt}
+                  </div>
+                ))}
+              </div>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {siteData.care_guide.points.slice(0, 3).map((pt, idx) => (
-                <div key={idx} className="p-4 rounded-xs bg-[#FAF8F5] border border-gray-100 text-xs text-gray-700 leading-relaxed">
-                  {pt}
-                </div>
-              ))}
-            </div>
-          </div>
+          </ScrollReveal>
         </div>
       </section>
 
       {/* SECTION 7: FINAL CONVERSION & TRADE INQUIRY */}
       {/* Q: How do I submit my specifications or get in touch directly? */}
       <section className="py-20 bg-[#18191B] text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-3xl">
+        <ScrollReveal direction="up" distance={30} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-3xl">
           <span className="text-xs font-mono uppercase tracking-widest text-[#88CCD0] font-semibold block mb-3">
             Direct Specifier Inquiries
           </span>
@@ -804,7 +859,7 @@ export const HomePage: React.FC<HomePageProps> = ({
           <p className="text-xs text-gray-400 mt-6 font-mono">
             Facility: {FACTORY_ADDRESS}
           </p>
-        </div>
+        </ScrollReveal>
       </section>
 
       {/* Product Detail Modal for inspecting specs */}

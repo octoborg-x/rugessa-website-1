@@ -4,6 +4,10 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     background-color: var(--surface-canvas);
     color: var(--color-text-primary);
@@ -11,12 +15,21 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    overflow-x: hidden;
   }
 
   h1, h2, h3, .font-serif-heading {
     font-family: var(--font-display);
   }
 }
+
+/* Motion and Parallax helpers */
+@media (prefers-reduced-motion: no-preference) {
+  .smooth-transition {
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
 
 /* Dark Mode Global Surface & Contrast Harmony */
 .dark body {
