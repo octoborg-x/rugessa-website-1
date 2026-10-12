@@ -5,11 +5,13 @@ import { Sun, Moon, Laptop, Check } from 'lucide-react';
 interface ThemeToggleProps {
   className?: string;
   variant?: 'segmented' | 'compact';
+  isTransparent?: boolean;
 }
 
 export const ThemeToggle: React.FC<ThemeToggleProps> = ({
   className = '',
   variant = 'segmented',
+  isTransparent = false,
 }) => {
   const { themeMode, resolvedTheme, setThemeMode, toggleTheme } = useTheme();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -34,55 +36,71 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({
   ];
 
   if (variant === 'segmented') {
+    const containerClasses = isTransparent
+      ? 'bg-black/30 backdrop-blur-md border border-white/20 text-white'
+      : 'bg-[#F2EEE8] dark:bg-[#1E2126] border border-[#E6E0D6] dark:border-[#33373E] text-gray-700 dark:text-gray-300';
+
     return (
       <div
-        className={`inline-flex items-center bg-[#F2EEE8] dark:bg-[#1E2126] p-1 rounded-sm border border-[#E6E0D6] dark:border-[#33373E] text-xs transition-colors ${className}`}
+        className={`inline-flex items-center p-1 rounded-sm text-xs transition-colors ${containerClasses} ${className}`}
         role="group"
         aria-label="Theme mode selector"
       >
         <button
           type="button"
           onClick={() => setThemeMode('system')}
-          className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xs transition-all cursor-pointer min-h-[32px] ${
+          className={`flex items-center justify-center p-1.5 rounded-xs transition-all cursor-pointer min-h-[32px] min-w-[32px] ${
             themeMode === 'system'
-              ? 'bg-white dark:bg-[#2A2E36] text-[var(--color-teal-900)] dark:text-white font-semibold shadow-xs'
+              ? isTransparent
+                ? 'bg-white/25 text-white font-semibold shadow-xs'
+                : 'bg-white dark:bg-[#2A2E36] text-[var(--color-teal-900)] dark:text-white font-semibold shadow-xs'
+              : isTransparent
+              ? 'text-white/60 hover:text-white'
               : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
           }`}
-          title="Follow System default theme (Dark or Light)"
+          title="Auto: Follow System default theme mode (Dark or Light)"
+          aria-label="Auto (System default theme mode)"
           aria-pressed={themeMode === 'system'}
         >
-          <Laptop className="w-3.5 h-3.5 text-gray-500" />
-          <span className="text-[11px]">Auto</span>
+          <Laptop className="w-3.5 h-3.5" />
         </button>
 
         <button
           type="button"
           onClick={() => setThemeMode('light')}
-          className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xs transition-all cursor-pointer min-h-[32px] ${
+          className={`flex items-center justify-center p-1.5 rounded-xs transition-all cursor-pointer min-h-[32px] min-w-[32px] ${
             themeMode === 'light'
-              ? 'bg-white dark:bg-[#2A2E36] text-[var(--color-teal-900)] dark:text-white font-semibold shadow-xs'
+              ? isTransparent
+                ? 'bg-white/25 text-white font-semibold shadow-xs'
+                : 'bg-white dark:bg-[#2A2E36] text-[var(--color-teal-900)] dark:text-white font-semibold shadow-xs'
+              : isTransparent
+              ? 'text-white/60 hover:text-white'
               : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
           }`}
-          title="Switch to Light mode"
+          title="Light theme mode"
+          aria-label="Light theme mode"
           aria-pressed={themeMode === 'light'}
         >
           <Sun className="w-3.5 h-3.5 text-amber-500" />
-          <span className="text-[11px]">Light</span>
         </button>
 
         <button
           type="button"
           onClick={() => setThemeMode('dark')}
-          className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xs transition-all cursor-pointer min-h-[32px] ${
+          className={`flex items-center justify-center p-1.5 rounded-xs transition-all cursor-pointer min-h-[32px] min-w-[32px] ${
             themeMode === 'dark'
-              ? 'bg-white dark:bg-[#2A2E36] text-[var(--color-teal-900)] dark:text-white font-semibold shadow-xs'
+              ? isTransparent
+                ? 'bg-white/25 text-white font-semibold shadow-xs'
+                : 'bg-white dark:bg-[#2A2E36] text-[var(--color-teal-900)] dark:text-white font-semibold shadow-xs'
+              : isTransparent
+              ? 'text-white/60 hover:text-white'
               : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
           }`}
-          title="Switch to Dark mode"
+          title="Dark theme mode"
+          aria-label="Dark theme mode"
           aria-pressed={themeMode === 'dark'}
         >
           <Moon className="w-3.5 h-3.5 text-[var(--color-teal-400)]" />
-          <span className="text-[11px]">Dark</span>
         </button>
       </div>
     );
@@ -96,14 +114,18 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({
           e.preventDefault();
           setMenuOpen(!menuOpen);
         }}
-        className="flex items-center justify-center p-2 rounded-xs border border-gray-200 dark:border-[#383C44] text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-[#202328] transition-colors min-h-[44px] min-w-[44px] cursor-pointer"
+        className={`flex items-center justify-center p-2 rounded-xs border transition-colors min-h-[44px] min-w-[44px] cursor-pointer ${
+          isTransparent
+            ? 'border-white/25 bg-black/30 text-white hover:bg-black/45'
+            : 'border-gray-200 dark:border-[#383C44] text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-[#202328]'
+        }`}
         aria-label={`Current theme: ${themeMode} (${resolvedTheme} active). Click to toggle theme.`}
         title={`Theme: ${themeMode} (Current: ${resolvedTheme}). Right-click or hold for options.`}
       >
         {resolvedTheme === 'dark' ? (
-          <Moon className="w-4 h-4 text-[var(--color-teal-500)]" />
+          <Moon className="w-4 h-4 text-[var(--color-teal-400)]" />
         ) : (
-          <Sun className="w-4 h-4 text-[var(--color-gold-500)]" />
+          <Sun className="w-4 h-4 text-amber-500" />
         )}
       </button>
 

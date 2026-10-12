@@ -74,35 +74,21 @@ export const HomePage: React.FC<HomePageProps> = ({
       collection: 'Polyster Shaggy',
       sku: 'PS-001',
       spec: 'High-density pile tuft with optical luster & tactile warmth',
-      badge: 'Deep Residential Comfort',
+      badge: 'Residential Plush Comfort',
     },
     {
       image: '/assets/products/classic_cl-001.jpg',
       collection: 'Classic Loomed',
       sku: 'CL-001',
       spec: 'Timeless architectural motifs & structural loomed density',
-      badge: 'Traditional Heritage',
+      badge: 'Traditional Heritage Loom',
     },
     {
       image: '/assets/products/heatset_ht-007.jpg',
       collection: 'Heatset Contract',
       sku: 'HT-007',
       spec: 'Thermal-treated polypropylene engineered for contract traffic',
-      badge: 'Hospitality & Commercial Weave',
-    },
-    {
-      image: '/assets/products/lurex-heatset_lh-003.jpg',
-      collection: 'Lurex Heatset',
-      sku: 'LH-003',
-      spec: 'Contemporary geometric loomed textile with metallic highlights',
-      badge: 'Architectural Designer Weave',
-    },
-    {
-      image: '/assets/products/viscose_vs-002.jpg',
-      collection: 'Viscose Sheen',
-      sku: 'VS-002',
-      spec: 'Silken reflective yarn finish for refined executive spaces',
-      badge: 'Lustrous Contemporary Pile',
+      badge: 'Hospitality & Commercial Grade',
     },
   ];
 
@@ -119,15 +105,14 @@ export const HomePage: React.FC<HomePageProps> = ({
 
   return (
     <div className="space-y-0">
-      {/* SECTION 1: HERO PROPOSITION WITH DARKENED IMAGE SLIDER */}
-      {/* Q: Who is Rugessa, what do they craft, and how do I begin? */}
+      {/* SECTION 1: HERO PROPOSITION WITH FULL-WIDTH & HEIGHT DARKENED SLIDER */}
       <section
         id="hero"
-        className="relative bg-[#0D0E11] text-white pt-12 pb-16 sm:pb-20 border-b border-[#24272D] overflow-hidden"
+        className="relative w-full min-h-[95vh] sm:min-h-screen flex items-center justify-center bg-[#0D0E11] text-white pt-24 sm:pt-28 pb-16 sm:pb-20 border-b border-[#24272D] overflow-hidden"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
       >
-        {/* Darkened Background Image Slider */}
+        {/* Full Width & Height Darkened Slider Images */}
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
           {heroSlides.map((slide, idx) => (
             <div
@@ -140,20 +125,20 @@ export const HomePage: React.FC<HomePageProps> = ({
             >
               <img
                 src={slide.image}
-                alt={slide.collection}
-                className="w-full h-full object-cover object-center filter brightness-[0.38] contrast-[1.15] scale-102 transform transition-transform duration-7000 ease-out"
+                alt={`Rugessa ${slide.collection} Carpet textile`}
+                className="w-full h-full object-cover object-center filter brightness-[0.40] contrast-[1.12] scale-105 transform transition-transform duration-7000 ease-out"
               />
             </div>
           ))}
 
-          {/* Deep dark architectural overlays for pristine typographic contrast */}
-          <div className="absolute inset-0 bg-gradient-to-r from-black/92 via-black/82 to-black/65" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0D0E11] via-transparent to-black/60" />
-          <div className="absolute inset-0 bg-radial-at-c from-transparent via-black/25 to-black/80" />
+          {/* Dark layer over image with opacity */}
+          <div className="absolute inset-0 bg-black/60 z-10" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0D0E11] via-black/35 to-black/60 z-10" />
+          <div className="absolute inset-0 bg-radial-at-c from-transparent via-black/20 to-black/75 z-10" />
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             {/* Left Narrative Column */}
             <div className="lg:col-span-7 space-y-6">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-[#88CCD0] text-xs font-semibold">
@@ -212,19 +197,21 @@ export const HomePage: React.FC<HomePageProps> = ({
                 </span>
               </div>
 
-              {/* Slider Navigation Bar */}
+              {/* Three Dots Icons as Index for Image Slides */}
               <div className="flex items-center gap-3 pt-2">
-                <div className="flex items-center gap-1.5" role="tablist" aria-label="Hero slider pagination">
+                <div className="flex items-center gap-2" role="tablist" aria-label="Hero slider pagination">
                   {heroSlides.map((slide, idx) => (
                     <button
                       key={slide.sku}
+                      type="button"
                       onClick={() => setActiveSlide(idx)}
-                      className={`transition-all duration-300 rounded-full cursor-pointer ${
+                      className={`transition-all duration-300 rounded-full cursor-pointer flex items-center justify-center ${
                         idx === activeSlide
-                          ? 'w-7 h-2 bg-[var(--color-gold-400)]'
-                          : 'w-2 h-2 bg-white/35 hover:bg-white/70'
+                          ? 'w-7 h-2.5 bg-[var(--color-gold-400)] shadow-xs'
+                          : 'w-2.5 h-2.5 bg-white/40 hover:bg-white/80'
                       }`}
-                      aria-label={`Go to slide ${idx + 1}: ${slide.collection}`}
+                      aria-label={`Slide ${idx + 1}: ${slide.collection}`}
+                      title={`Slide ${idx + 1}: ${slide.collection}`}
                     />
                   ))}
                 </div>
@@ -233,16 +220,20 @@ export const HomePage: React.FC<HomePageProps> = ({
                 </span>
                 <div className="flex items-center gap-1 ml-auto">
                   <button
+                    type="button"
                     onClick={() => setActiveSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length)}
                     className="p-1.5 rounded-full bg-white/10 hover:bg-white/25 text-white transition-colors cursor-pointer"
                     aria-label="Previous slide"
+                    title="Previous slide"
                   >
                     <ChevronLeft className="w-4 h-4" />
                   </button>
                   <button
+                    type="button"
                     onClick={() => setActiveSlide((prev) => (prev + 1) % heroSlides.length)}
                     className="p-1.5 rounded-full bg-white/10 hover:bg-white/25 text-white transition-colors cursor-pointer"
                     aria-label="Next slide"
+                    title="Next slide"
                   >
                     <ChevronRight className="w-4 h-4" />
                   </button>
@@ -250,41 +241,38 @@ export const HomePage: React.FC<HomePageProps> = ({
               </div>
             </div>
 
-            {/* Right Architectural Visual Montage */}
-            <div className="lg:col-span-5 relative">
-              <div className="relative rounded-sm overflow-hidden shadow-2xl border border-white/20 bg-[#15171B] aspect-4/3 sm:aspect-16/11">
-                <img
-                  src={heroSlides[activeSlide].image}
-                  alt={`Rugessa ${heroSlides[activeSlide].collection} Carpet Textile`}
-                  className="w-full h-full object-cover transition-all duration-700 hover:scale-103"
-                  loading="eager"
-                />
-                {/* Non-overlapping text overlay at bottom of image */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent flex flex-col justify-end p-5 sm:p-6 text-white pointer-events-none">
+            {/* Right Architectural Spec Column — Clean, non-overlapping, zero hidden text */}
+            <div className="lg:col-span-5 space-y-4">
+              {/* Featured Slide Textile Highlight Card */}
+              <div className="p-5 sm:p-6 rounded-sm bg-black/45 dark:bg-[#15171B]/75 backdrop-blur-md border border-white/20 shadow-2xl space-y-3">
+                <div className="flex items-center justify-between gap-2">
                   <span className="text-[11px] font-mono tracking-wider uppercase text-[#88CCD0] font-semibold">
-                    Featured Archive Series
+                    Slide 0{activeSlide + 1} of 0{heroSlides.length}
                   </span>
-                  <span className="text-xl sm:text-2xl font-serif text-white">
-                    {heroSlides[activeSlide].collection} · Model {heroSlides[activeSlide].sku}
-                  </span>
-                  <span className="text-xs text-gray-300 mt-1 line-clamp-2">
-                    {heroSlides[activeSlide].spec}
+                  <span className="text-[11px] font-mono px-2 py-0.5 rounded-xs bg-white/10 text-[var(--color-gold-300)] font-semibold">
+                    {heroSlides[activeSlide].badge}
                   </span>
                 </div>
+                <h3 className="text-xl sm:text-2xl font-serif text-white">
+                  {heroSlides[activeSlide].collection} · Model {heroSlides[activeSlide].sku}
+                </h3>
+                <p className="text-xs text-gray-300 leading-relaxed">
+                  {heroSlides[activeSlide].spec}
+                </p>
               </div>
 
-              {/* Commercial Standard Specification Card — Placed cleanly below image so zero text is obscured */}
-              <div className="mt-3.5 bg-black/60 dark:bg-[#181A1D]/80 backdrop-blur-md p-3.5 rounded-sm border border-white/15 dark:border-[#33373E] shadow-xl flex items-start gap-3">
-                <div className="w-8 h-8 rounded-full bg-[var(--color-teal-700)] text-white flex items-center justify-center shrink-0 mt-0.5">
-                  <ShieldCheck className="w-4 h-4" />
+              {/* Commercial Standard Specification Card — Structured cleanly with ample room and zero overlap */}
+              <div className="p-4 sm:p-5 bg-black/50 dark:bg-[#181A1D]/80 backdrop-blur-md rounded-sm border border-white/15 dark:border-[#33373E] shadow-xl flex items-start gap-3.5">
+                <div className="w-9 h-9 rounded-full bg-[var(--color-teal-700)] text-white flex items-center justify-center shrink-0 mt-0.5 shadow-xs">
+                  <ShieldCheck className="w-5 h-5" />
                 </div>
                 <div className="flex-1 min-w-0 text-left">
                   <div className="flex items-center justify-between gap-2">
-                    <span className="text-xs font-semibold text-white">Commercial Standard</span>
+                    <span className="text-sm font-semibold text-white">Commercial Standard</span>
                     <span className="text-[10px] font-mono text-[var(--color-teal-300)] font-bold">15+ Yrs Factory Heritage</span>
                   </div>
-                  <p className="text-[11px] text-gray-300 leading-snug mt-0.5">
-                    Precision-loomed carpets crafted for prolonged resilience, dimensional stability, and easy spot maintenance.
+                  <p className="text-xs text-gray-300 leading-relaxed mt-1">
+                    Precision machine-woven textiles engineered for prolonged resilience, dimensional stability, and easy spot maintenance.
                   </p>
                 </div>
               </div>
@@ -295,11 +283,11 @@ export const HomePage: React.FC<HomePageProps> = ({
 
       {/* SECTION 2: VISUAL COLLECTION INDEX */}
       {/* Q: What distinct weave constructions and yarn styles does Rugessa produce? */}
-      <section id="collections" className="py-20 bg-white border-b border-[var(--border-subtle)]">
+      <section id="collections" className="py-20 bg-white dark:bg-[#121417] border-b border-[var(--border-subtle)] dark:border-[#2C2F36] transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
             <div>
-              <span className="text-xs font-mono uppercase tracking-widest text-[var(--color-teal-700)] font-semibold block mb-2">
+              <span className="text-xs font-mono uppercase tracking-widest text-[var(--color-teal-700)] dark:text-[var(--color-teal-400)] font-semibold block mb-2">
                 Curated Loom Archive
               </span>
               <h2 className="text-3xl sm:text-4xl font-light text-[var(--color-text-primary)] font-serif">
@@ -311,13 +299,13 @@ export const HomePage: React.FC<HomePageProps> = ({
             </div>
 
             {/* Filter Pills */}
-            <div className="flex flex-wrap gap-1.5 bg-[#FAF8F5] p-1.5 rounded-sm border border-[#E6E0D6] max-w-xl">
+            <div className="flex flex-wrap gap-1.5 bg-[#FAF8F5] dark:bg-[#1A1C1E] p-1.5 rounded-sm border border-[#E6E0D6] dark:border-[#33373E] max-w-xl">
               <button
                 onClick={() => setSelectedFilter('all')}
                 className={`px-3 py-1.5 text-xs rounded-xs font-medium transition-all cursor-pointer ${
                   selectedFilter === 'all'
                     ? 'bg-[var(--color-teal-700)] text-white shadow-xs font-semibold'
-                    : 'text-gray-700 hover:text-black'
+                    : 'text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white'
                 }`}
               >
                 All (33)
@@ -329,7 +317,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                   className={`px-2.5 py-1.5 text-xs rounded-xs font-medium transition-all cursor-pointer ${
                     selectedFilter === col
                       ? 'bg-[var(--color-teal-700)] text-white shadow-xs font-semibold'
-                      : 'text-gray-700 hover:text-black'
+                      : 'text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white'
                   }`}
                 >
                   {col}

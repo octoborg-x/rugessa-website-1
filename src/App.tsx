@@ -73,7 +73,7 @@ export default function App() {
           />
 
           {/* Main Content Area */}
-          <main id="main-content" className="flex-1">
+          <main id="main-content" className={`flex-1 ${currentRoute !== 'home' ? 'pt-20' : ''}`}>
             {currentRoute === 'home' && (
               <HomePage
                 initialCollectionFilter={collectionFilter}

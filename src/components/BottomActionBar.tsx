@@ -1,6 +1,6 @@
 import React from 'react';
 import { useQuote } from '../context/QuoteContext';
-import { FileText, Phone, MessageSquare, Calculator } from 'lucide-react';
+import { ShoppingCart, Phone, MessageSquare, Calculator } from 'lucide-react';
 import { getWhatsAppUrl, PHONE_TEL, PHONE_DISPLAY } from '../utils/whatsapp';
 
 interface BottomActionBarProps {
@@ -51,14 +51,14 @@ export const BottomActionBar: React.FC<BottomActionBarProps> = ({
           <span className="hidden sm:inline">Calc</span>
         </button>
 
-        {/* Primary Quote Drawer Action */}
+        {/* Primary Cart / Quote Drawer Action */}
         <button
           onClick={openDrawer}
           className="flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 bg-[var(--color-teal-700)] hover:bg-[var(--color-teal-900)] text-white text-xs font-semibold rounded-xs shadow-xs min-h-[44px] cursor-pointer active:scale-98 transition-transform"
-          aria-label={`Open Quote List (${totalCount} items)`}
+          aria-label={`Open Cart (${totalCount} items)`}
         >
-          <FileText className="w-4 h-4" />
-          <span>Quote ({totalCount})</span>
+          <ShoppingCart className="w-4 h-4" />
+          <span>Cart ({totalCount})</span>
         </button>
       </div>
     </aside>

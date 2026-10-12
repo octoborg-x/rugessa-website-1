@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { RugessaLogo } from './RugessaLogo';
 import { useQuote } from '../context/QuoteContext';
 import { useTheme } from '../context/ThemeContext';
-import { X, ChevronDown, ChevronRight, FileText, Mail, Home, Building2, Sun, Moon, Laptop, MessageSquare } from 'lucide-react';
+import { X, ChevronDown, ChevronRight, ShoppingCart, Mail, Home, Building2, Sun, Moon, Laptop, MessageSquare } from 'lucide-react';
 import productsData from '../../data/products.json';
 import { getWhatsAppUrl, PHONE_DISPLAY, PHONE_TEL, FACTORY_ADDRESS, CONTACT_EMAIL } from '../utils/whatsapp';
 
@@ -109,41 +109,47 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
             </button>
           </div>
 
-          {/* Theme Selector */}
+          {/* Theme Selector - Icon only */}
           <div className="mt-3 pt-3 border-t border-gray-200 dark:border-[#33373E]">
             <span className="text-[11px] font-mono uppercase text-gray-500 dark:text-gray-400 block mb-1.5">
               Theme Mode
             </span>
             <div className="grid grid-cols-3 gap-1.5">
               <button
-                onClick={() => setThemeMode('light')}
-                className={`flex items-center justify-center gap-1.5 py-1.5 px-2 text-[11px] font-medium rounded-xs border min-h-[38px] cursor-pointer ${
-                  themeMode === 'light'
-                    ? 'bg-white dark:bg-[#2A2E36] border-[var(--color-gold-500)] text-gray-900 dark:text-white shadow-xs font-bold'
+                onClick={() => setThemeMode('system')}
+                className={`flex items-center justify-center p-2 rounded-xs border min-h-[38px] cursor-pointer transition-colors ${
+                  themeMode === 'system'
+                    ? 'bg-white dark:bg-[#2A2E36] border-[var(--color-teal-700)] text-gray-900 dark:text-white shadow-xs'
                     : 'bg-transparent border-gray-200 dark:border-[#383C44] text-gray-600 dark:text-gray-400'
                 }`}
+                title="Auto: Follow System default theme mode"
+                aria-label="Auto (System default theme mode)"
               >
-                <Sun className="w-3.5 h-3.5 text-amber-500" /> Light
+                <Laptop className="w-4 h-4" />
+              </button>
+              <button
+                onClick={() => setThemeMode('light')}
+                className={`flex items-center justify-center p-2 rounded-xs border min-h-[38px] cursor-pointer transition-colors ${
+                  themeMode === 'light'
+                    ? 'bg-white dark:bg-[#2A2E36] border-[var(--color-gold-500)] text-gray-900 dark:text-white shadow-xs'
+                    : 'bg-transparent border-gray-200 dark:border-[#383C44] text-gray-600 dark:text-gray-400'
+                }`}
+                title="Light mode"
+                aria-label="Light mode"
+              >
+                <Sun className="w-4 h-4 text-amber-500" />
               </button>
               <button
                 onClick={() => setThemeMode('dark')}
-                className={`flex items-center justify-center gap-1.5 py-1.5 px-2 text-[11px] font-medium rounded-xs border min-h-[38px] cursor-pointer ${
+                className={`flex items-center justify-center p-2 rounded-xs border min-h-[38px] cursor-pointer transition-colors ${
                   themeMode === 'dark'
-                    ? 'bg-white dark:bg-[#2A2E36] border-[var(--color-teal-500)] text-gray-900 dark:text-white shadow-xs font-bold'
+                    ? 'bg-white dark:bg-[#2A2E36] border-[var(--color-teal-500)] text-gray-900 dark:text-white shadow-xs'
                     : 'bg-transparent border-gray-200 dark:border-[#383C44] text-gray-600 dark:text-gray-400'
                 }`}
+                title="Dark mode"
+                aria-label="Dark mode"
               >
-                <Moon className="w-3.5 h-3.5 text-[var(--color-teal-400)]" /> Dark
-              </button>
-              <button
-                onClick={() => setThemeMode('system')}
-                className={`flex items-center justify-center gap-1.5 py-1.5 px-2 text-[11px] font-medium rounded-xs border min-h-[38px] cursor-pointer ${
-                  themeMode === 'system'
-                    ? 'bg-white dark:bg-[#2A2E36] border-[var(--color-teal-700)] text-gray-900 dark:text-white shadow-xs font-bold'
-                    : 'bg-transparent border-gray-200 dark:border-[#383C44] text-gray-600 dark:text-gray-400'
-                }`}
-              >
-                <Laptop className="w-3.5 h-3.5" /> Auto
+                <Moon className="w-4 h-4 text-[var(--color-teal-400)]" />
               </button>
             </div>
           </div>
@@ -255,8 +261,8 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
             }}
             className="w-full flex items-center justify-center gap-2 py-3 bg-[var(--color-teal-700)] hover:bg-[var(--color-teal-900)] text-white text-xs font-semibold rounded-xs shadow-xs min-h-[48px] cursor-pointer"
           >
-            <FileText className="w-4 h-4" />
-            <span>Open Quotation Drawer ({totalCount})</span>
+            <ShoppingCart className="w-4 h-4" />
+            <span>Open Cart ({totalCount})</span>
           </button>
 
           <div className="grid grid-cols-2 gap-2">
