@@ -9,9 +9,7 @@ interface RugessaLogoProps {
 
 export const RugessaLogo: React.FC<RugessaLogoProps> = ({
   className = '',
-  variant = 'full',
   size = 'md',
-  inverted = false,
 }) => {
   const heightClasses = {
     sm: 'h-8',
@@ -20,16 +18,15 @@ export const RugessaLogo: React.FC<RugessaLogoProps> = ({
   };
 
   return (
-    <div className={`inline-flex items-center gap-3 select-none ${className}`}>
-      {/* We render the official raster logo with crisp styling, backed by an inline SVG symbol */}
+    <div className={`inline-flex items-center select-none bg-transparent ${className}`}>
       <img
         src="/assets/mainLogo.png"
         alt="Rugessa Carpet & Textiles Logo"
-        className={`${heightClasses[size]} w-auto object-contain transition-transform duration-300 dark:brightness-105 ${
-          inverted ? 'brightness-0 invert' : ''
-        }`}
+        className={`${heightClasses[size]} w-auto object-contain transition-transform duration-200`}
         loading="eager"
       />
     </div>
   );
 };
+
+

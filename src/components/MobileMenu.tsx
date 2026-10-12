@@ -18,7 +18,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
   onNavigate,
 }) => {
   const { items, openDrawer, audienceMode, setAudienceMode } = useQuote();
-  const { themeMode, setThemeMode } = useTheme();
+  const { themeMode, setThemeMode, resolvedTheme } = useTheme();
   const [collectionsExpanded, setCollectionsExpanded] = useState(true);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -109,47 +109,52 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
             </button>
           </div>
 
-          {/* Theme Selector - Icon only */}
+          {/* Theme Selector - 3 Modes (D / L / S) */}
           <div className="mt-3 pt-3 border-t border-gray-200 dark:border-[#33373E]">
-            <span className="text-[11px] font-mono uppercase text-gray-500 dark:text-gray-400 block mb-1.5">
-              Theme Mode
-            </span>
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-[11px] font-mono uppercase text-gray-500 dark:text-gray-400">
+                Theme (3 Modes: D / L / S)
+              </span>
+              <span className="text-[10px] font-mono text-[var(--color-teal-700)] dark:text-[var(--color-teal-300)] font-semibold">
+                {themeMode === 'system' ? `Auto (${resolvedTheme})` : themeMode === 'dark' ? 'Dark' : 'Light'}
+              </span>
+            </div>
             <div className="grid grid-cols-3 gap-1.5">
               <button
-                onClick={() => setThemeMode('system')}
+                onClick={() => setThemeMode('dark')}
                 className={`flex items-center justify-center p-2 rounded-xs border min-h-[38px] cursor-pointer transition-colors ${
-                  themeMode === 'system'
-                    ? 'bg-white dark:bg-[#2A2E36] border-[var(--color-teal-700)] text-gray-900 dark:text-white shadow-xs'
+                  themeMode === 'dark'
+                    ? 'bg-white dark:bg-[#2A2E36] border-[var(--color-teal-500)] text-gray-900 dark:text-white font-semibold shadow-xs'
                     : 'bg-transparent border-gray-200 dark:border-[#383C44] text-gray-600 dark:text-gray-400'
                 }`}
-                title="Auto: Follow System default theme mode"
-                aria-label="Auto (System default theme mode)"
+                title="Dark mode (D)"
+                aria-label="Dark mode (D)"
               >
-                <Laptop className="w-4 h-4" />
+                <Moon className="w-4 h-4 text-[var(--color-teal-400)]" />
               </button>
               <button
                 onClick={() => setThemeMode('light')}
                 className={`flex items-center justify-center p-2 rounded-xs border min-h-[38px] cursor-pointer transition-colors ${
                   themeMode === 'light'
-                    ? 'bg-white dark:bg-[#2A2E36] border-[var(--color-gold-500)] text-gray-900 dark:text-white shadow-xs'
+                    ? 'bg-white dark:bg-[#2A2E36] border-[var(--color-gold-500)] text-gray-900 dark:text-white font-semibold shadow-xs'
                     : 'bg-transparent border-gray-200 dark:border-[#383C44] text-gray-600 dark:text-gray-400'
                 }`}
-                title="Light mode"
-                aria-label="Light mode"
+                title="Light mode (L)"
+                aria-label="Light mode (L)"
               >
                 <Sun className="w-4 h-4 text-amber-500" />
               </button>
               <button
-                onClick={() => setThemeMode('dark')}
+                onClick={() => setThemeMode('system')}
                 className={`flex items-center justify-center p-2 rounded-xs border min-h-[38px] cursor-pointer transition-colors ${
-                  themeMode === 'dark'
-                    ? 'bg-white dark:bg-[#2A2E36] border-[var(--color-teal-500)] text-gray-900 dark:text-white shadow-xs'
+                  themeMode === 'system'
+                    ? 'bg-white dark:bg-[#2A2E36] border-[var(--color-teal-700)] text-gray-900 dark:text-white font-semibold shadow-xs'
                     : 'bg-transparent border-gray-200 dark:border-[#383C44] text-gray-600 dark:text-gray-400'
                 }`}
-                title="Dark mode"
-                aria-label="Dark mode"
+                title="System default mode (S)"
+                aria-label="System default mode (S)"
               >
-                <Moon className="w-4 h-4 text-[var(--color-teal-400)]" />
+                <Laptop className="w-4 h-4 text-[#88CCD0]" />
               </button>
             </div>
           </div>

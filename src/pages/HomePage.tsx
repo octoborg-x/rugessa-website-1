@@ -3,6 +3,7 @@ import productsData from '../../data/products.json';
 import siteData from '../../data/site.json';
 import { useQuote } from '../context/QuoteContext';
 import { RugCalculator } from '../components/RugCalculator';
+import { ProductDetailModal } from '../components/ProductDetailModal';
 import {
   FileText,
   ArrowRight,
@@ -21,7 +22,10 @@ import {
   Compass,
   MessageSquare,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Eye,
+  Pause,
+  Play
 } from 'lucide-react';
 import { getWhatsAppUrl, PHONE_DISPLAY, PHONE_TEL, FACTORY_ADDRESS } from '../utils/whatsapp';
 
@@ -38,6 +42,7 @@ export const HomePage: React.FC<HomePageProps> = ({
   const [selectedFilter, setSelectedFilter] = useState<string>(initialCollectionFilter);
   const [stainQuery, setStainQuery] = useState<string>('');
   const [addedSkuMap, setAddedSkuMap] = useState<Record<string, boolean>>({});
+  const [modalProduct, setModalProduct] = useState<typeof productsData[0] | null>(null);
 
   const collections = Array.from(new Set(productsData.map((p) => p.collection)));
 
@@ -70,25 +75,49 @@ export const HomePage: React.FC<HomePageProps> = ({
 
   const heroSlides = [
     {
+      id: 'polyster-shaggy-ps-001',
       image: '/assets/products/polyster-shaggy_ps-001.jpg',
       collection: 'Polyster Shaggy',
       sku: 'PS-001',
-      spec: 'High-density pile tuft with optical luster & tactile warmth',
+      spec: 'High-density pile tuft with optical luster, deep texture & tactile warmth',
       badge: 'Residential Plush Comfort',
+      texture: 'Dense Shaggy Pile · 100% Polypropylene',
     },
     {
+      id: 'classic-cl-001',
       image: '/assets/products/classic_cl-001.jpg',
       collection: 'Classic Loomed',
       sku: 'CL-001',
-      spec: 'Timeless architectural motifs & structural loomed density',
+      spec: 'Timeless architectural motifs, rich border framing & structural loomed density',
       badge: 'Traditional Heritage Loom',
+      texture: 'Precision Classical Motif · High Point Count',
     },
     {
+      id: 'heatset-ht-007',
       image: '/assets/products/heatset_ht-007.jpg',
       collection: 'Heatset Contract',
       sku: 'HT-007',
-      spec: 'Thermal-treated polypropylene engineered for contract traffic',
+      spec: 'Thermal-treated polypropylene yarns engineered for commercial footfall resilience',
       badge: 'Hospitality & Commercial Grade',
+      texture: 'Thermal Heatset Weave · Heavy Traffic Tested',
+    },
+    {
+      id: 'chenille-ch-001',
+      image: '/assets/products/chenille_ch-001.jpg',
+      collection: 'Chenille',
+      sku: 'CH-001',
+      spec: 'Velvety touch with supple drape, geometric balance and soft tactile warmth',
+      badge: 'Velvet Tactile Sheen',
+      texture: 'Chenille Yarn Weave · Soft Touch Surface',
+    },
+    {
+      id: 'viscose-vs-001',
+      image: '/assets/products/viscose_vs-001.jpg',
+      collection: 'Viscose',
+      sku: 'VS-001',
+      spec: 'Silky optical reflection with radiant gradient depth and delicate refined feel',
+      badge: 'Silky Luster Finish',
+      texture: 'Viscose Blend · High Luster Yarn',
     },
   ];
 
@@ -99,21 +128,24 @@ export const HomePage: React.FC<HomePageProps> = ({
     if (isPaused) return;
     const interval = setInterval(() => {
       setActiveSlide((prev) => (prev + 1) % heroSlides.length);
-    }, 5200);
+    }, 5500);
     return () => clearInterval(interval);
   }, [isPaused, heroSlides.length]);
 
+  const currentActiveSlide = heroSlides[activeSlide];
+  const activeProductData = productsData.find((p) => p.sku === currentActiveSlide.sku);
+
   return (
     <div className="space-y-0">
-      {/* SECTION 1: HERO PROPOSITION WITH FULL-WIDTH & HEIGHT DARKENED SLIDER */}
+      {/* SECTION 1: HERO PROPOSITION WITH FULL-WIDTH & HEIGHT VISIBLE CARPET BACKGROUND SLIDER */}
       <section
         id="hero"
-        className="relative w-full min-h-[95vh] sm:min-h-screen flex items-center justify-center bg-[#0D0E11] text-white pt-24 sm:pt-28 pb-16 sm:pb-20 border-b border-[#24272D] overflow-hidden"
+        className="relative w-full min-h-[92vh] sm:min-h-screen flex items-center justify-center bg-[#0D0E11] text-white pt-24 sm:pt-28 pb-16 sm:pb-20 border-b border-[#24272D] overflow-hidden"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
       >
-        {/* Full Width & Height Darkened Slider Images */}
-        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        {/* Full Width & Height Visible Slider Images */}
+        <div className="absolute inset-0 z-0 overflow-hidden">
           {heroSlides.map((slide, idx) => (
             <div
               key={slide.sku}
@@ -126,31 +158,37 @@ export const HomePage: React.FC<HomePageProps> = ({
               <img
                 src={slide.image}
                 alt={`Rugessa ${slide.collection} Carpet textile`}
-                className="w-full h-full object-cover object-center filter brightness-[0.40] contrast-[1.12] scale-105 transform transition-transform duration-7000 ease-out"
+                loading={idx === 0 ? 'eager' : 'lazy'}
+                className={`w-full h-full object-cover object-center filter brightness-[0.82] contrast-[1.08] transition-transform duration-[7000ms] ease-out ${
+                  idx === activeSlide ? 'scale-105' : 'scale-100'
+                }`}
               />
             </div>
           ))}
 
-          {/* Dark layer over image with opacity */}
-          <div className="absolute inset-0 bg-black/60 z-10" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0D0E11] via-black/35 to-black/60 z-10" />
-          <div className="absolute inset-0 bg-radial-at-c from-transparent via-black/20 to-black/75 z-10" />
+          {/* Balanced editorial dark scrim: keeps carpet background vividly visible while ensuring text is readable */}
+          {/* Asymmetric left-to-right gradient: dark where the headline sits, clear translucent on right */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/60 to-black/30 md:from-black/80 md:via-black/50 md:to-black/20 z-10" />
+          {/* Top and bottom soft fade for navigation and edge transition */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0D0E11] via-transparent to-black/45 z-10" />
+          {/* Warm subtle ambient tint */}
+          <div className="absolute inset-0 bg-black/15 z-10" />
         </div>
 
         <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             {/* Left Narrative Column */}
             <div className="lg:col-span-7 space-y-6">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-[#88CCD0] text-xs font-semibold">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/20 text-[#88CCD0] text-xs font-semibold">
                 <Sparkles className="w-3.5 h-3.5 text-[var(--color-gold-400)]" />
                 <span>Over 15 Years of Machine-Woven Carpet Craft</span>
               </div>
 
-              <h1 className="text-4xl sm:text-6xl lg:text-7xl font-light text-white font-serif leading-[1.08] tracking-tight">
+              <h1 className="text-4xl sm:text-6xl lg:text-7xl font-light text-white font-serif leading-[1.08] tracking-tight drop-shadow-sm">
                 Weaving for a living<span className="text-[var(--color-gold-400)]">.</span>
               </h1>
 
-              <p className="text-base sm:text-lg text-gray-200 font-light leading-relaxed max-w-xl">
+              <p className="text-base sm:text-lg text-gray-200 font-light leading-relaxed max-w-xl drop-shadow-xs">
                 {audienceMode === 'contract' ? (
                   <>
                     Engineered carpet collections for hospitality corridors, executive offices, and residential developments. High pile resilience, verified cleanability, and multi-line specification quotes.
@@ -174,7 +212,7 @@ export const HomePage: React.FC<HomePageProps> = ({
 
                 <button
                   onClick={() => onNavigateSection('collections')}
-                  className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-white/10 hover:bg-white/20 text-white text-xs font-semibold rounded-xs border border-white/25 backdrop-blur-md shadow-sm transition-all cursor-pointer min-h-[48px]"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-black/40 hover:bg-black/60 text-white text-xs font-semibold rounded-xs border border-white/30 backdrop-blur-md shadow-sm transition-all cursor-pointer min-h-[48px]"
                 >
                   <span>Explore the 10 Collections</span>
                   <ArrowRight className="w-4 h-4 text-[var(--color-gold-400)]" />
@@ -193,76 +231,190 @@ export const HomePage: React.FC<HomePageProps> = ({
                 </span>
                 <span className="flex items-center gap-1.5 text-gray-200">
                   <CheckCircle2 className="w-4 h-4 text-[var(--color-olive-400)]" />
-                  Zero Fakes / Zero Broken Links
+                  Zero Fakes / Real Factory Catalog
                 </span>
               </div>
 
-              {/* Three Dots Icons as Index for Image Slides */}
-              <div className="flex items-center gap-3 pt-2">
-                <div className="flex items-center gap-2" role="tablist" aria-label="Hero slider pagination">
-                  {heroSlides.map((slide, idx) => (
+              {/* Slider Navigation & Interactive Carpet Thumbnails */}
+              <div className="space-y-3 pt-3">
+                <div className="flex items-center gap-3">
+                  {/* Dots / Pills */}
+                  <div className="flex items-center gap-2" role="tablist" aria-label="Hero slider pagination">
+                    {heroSlides.map((slide, idx) => (
+                      <button
+                        key={slide.sku}
+                        type="button"
+                        onClick={() => setActiveSlide(idx)}
+                        className={`transition-all duration-300 rounded-full cursor-pointer flex items-center justify-center ${
+                          idx === activeSlide
+                            ? 'w-8 h-2.5 bg-[var(--color-gold-400)] shadow-xs'
+                            : 'w-2.5 h-2.5 bg-white/40 hover:bg-white/80'
+                        }`}
+                        aria-label={`Slide ${idx + 1}: ${slide.collection}`}
+                        title={`Slide ${idx + 1}: ${slide.collection}`}
+                      />
+                    ))}
+                  </div>
+
+                  <span className="text-[11px] font-mono text-gray-300 tracking-wider">
+                    0{activeSlide + 1} / 0{heroSlides.length} · {currentActiveSlide.collection} ({currentActiveSlide.sku})
+                  </span>
+
+                  {/* Play/Pause & Arrow Controls */}
+                  <div className="flex items-center gap-1.5 ml-auto">
                     <button
-                      key={slide.sku}
                       type="button"
-                      onClick={() => setActiveSlide(idx)}
-                      className={`transition-all duration-300 rounded-full cursor-pointer flex items-center justify-center ${
-                        idx === activeSlide
-                          ? 'w-7 h-2.5 bg-[var(--color-gold-400)] shadow-xs'
-                          : 'w-2.5 h-2.5 bg-white/40 hover:bg-white/80'
-                      }`}
-                      aria-label={`Slide ${idx + 1}: ${slide.collection}`}
-                      title={`Slide ${idx + 1}: ${slide.collection}`}
-                    />
-                  ))}
+                      onClick={() => setIsPaused((prev) => !prev)}
+                      className="p-1.5 rounded-full bg-white/10 hover:bg-white/25 text-white transition-colors cursor-pointer"
+                      aria-label={isPaused ? "Play slideshow" : "Pause slideshow"}
+                      title={isPaused ? "Play slideshow" : "Pause slideshow"}
+                    >
+                      {isPaused ? <Play className="w-3.5 h-3.5 text-[var(--color-gold-400)]" /> : <Pause className="w-3.5 h-3.5" />}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setActiveSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length)}
+                      className="p-1.5 rounded-full bg-white/10 hover:bg-white/25 text-white transition-colors cursor-pointer"
+                      aria-label="Previous slide"
+                      title="Previous slide"
+                    >
+                      <ChevronLeft className="w-4 h-4" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setActiveSlide((prev) => (prev + 1) % heroSlides.length)}
+                      className="p-1.5 rounded-full bg-white/10 hover:bg-white/25 text-white transition-colors cursor-pointer"
+                      aria-label="Next slide"
+                      title="Next slide"
+                    >
+                      <ChevronRight className="w-4 h-4" />
+                    </button>
+                  </div>
                 </div>
-                <span className="text-[11px] font-mono text-gray-300 tracking-wider">
-                  0{activeSlide + 1} / 0{heroSlides.length} · {heroSlides[activeSlide].collection}
-                </span>
-                <div className="flex items-center gap-1 ml-auto">
-                  <button
-                    type="button"
-                    onClick={() => setActiveSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length)}
-                    className="p-1.5 rounded-full bg-white/10 hover:bg-white/25 text-white transition-colors cursor-pointer"
-                    aria-label="Previous slide"
-                    title="Previous slide"
-                  >
-                    <ChevronLeft className="w-4 h-4" />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setActiveSlide((prev) => (prev + 1) % heroSlides.length)}
-                    className="p-1.5 rounded-full bg-white/10 hover:bg-white/25 text-white transition-colors cursor-pointer"
-                    aria-label="Next slide"
-                    title="Next slide"
-                  >
-                    <ChevronRight className="w-4 h-4" />
-                  </button>
+
+                {/* Miniature Carpet Swatch Strip: Click to immediately view that carpet texture in background */}
+                <div className="flex items-center gap-2 overflow-x-auto pb-1 pt-1 scrollbar-thin">
+                  <span className="text-[10px] font-mono uppercase tracking-wider text-gray-400 shrink-0">
+                    Background Swatches:
+                  </span>
+                  {heroSlides.map((slide, idx) => {
+                    const isCurrent = idx === activeSlide;
+                    return (
+                      <button
+                        key={slide.sku}
+                        type="button"
+                        onClick={() => setActiveSlide(idx)}
+                        className={`group relative flex items-center gap-2 px-2 py-1 rounded-xs transition-all cursor-pointer shrink-0 border ${
+                          isCurrent
+                            ? 'bg-black/70 border-[var(--color-gold-400)] text-white shadow-md ring-1 ring-[var(--color-gold-400)]'
+                            : 'bg-black/40 border-white/15 text-gray-300 hover:border-white/40 hover:text-white'
+                        }`}
+                        title={`Switch background to ${slide.collection} (${slide.sku})`}
+                      >
+                        <div className="w-6 h-6 rounded-xs overflow-hidden shrink-0 border border-white/20">
+                          <img
+                            src={slide.image}
+                            alt=""
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <span className="text-[11px] font-mono">
+                          {slide.sku}
+                        </span>
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             </div>
 
-            {/* Right Architectural Spec Column — Clean, non-overlapping, zero hidden text */}
+            {/* Right Architectural Spec Column — Visual link to background carpet */}
             <div className="lg:col-span-5 space-y-4">
-              {/* Featured Slide Textile Highlight Card */}
-              <div className="p-5 sm:p-6 rounded-sm bg-black/45 dark:bg-[#15171B]/75 backdrop-blur-md border border-white/20 shadow-2xl space-y-3">
+              {/* Featured Active Background Carpet Card */}
+              <div className="p-5 sm:p-6 rounded-sm bg-black/60 dark:bg-[#15171B]/85 backdrop-blur-md border border-white/25 shadow-2xl space-y-4">
                 <div className="flex items-center justify-between gap-2">
-                  <span className="text-[11px] font-mono tracking-wider uppercase text-[#88CCD0] font-semibold">
-                    Slide 0{activeSlide + 1} of 0{heroSlides.length}
-                  </span>
+                  <div className="flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                    <span className="text-[11px] font-mono tracking-wider uppercase text-[#88CCD0] font-semibold">
+                      Background Carpet Texture
+                    </span>
+                  </div>
                   <span className="text-[11px] font-mono px-2 py-0.5 rounded-xs bg-white/10 text-[var(--color-gold-300)] font-semibold">
-                    {heroSlides[activeSlide].badge}
+                    {currentActiveSlide.badge}
                   </span>
                 </div>
-                <h3 className="text-xl sm:text-2xl font-serif text-white">
-                  {heroSlides[activeSlide].collection} · Model {heroSlides[activeSlide].sku}
-                </h3>
-                <p className="text-xs text-gray-300 leading-relaxed">
-                  {heroSlides[activeSlide].spec}
-                </p>
+
+                {/* Thumbnail Preview & Title */}
+                <div className="flex items-start gap-4">
+                  <div className="w-20 h-20 rounded-xs overflow-hidden border border-white/30 shrink-0 relative group shadow-md">
+                    <img
+                      src={currentActiveSlide.image}
+                      alt={currentActiveSlide.collection}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => activeProductData && setModalProduct(activeProductData)}
+                      className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+                      title="Inspect full image & specs"
+                    >
+                      <Eye className="w-4 h-4 text-white" />
+                    </button>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-xl sm:text-2xl font-serif text-white leading-tight">
+                      {currentActiveSlide.collection}
+                    </h3>
+                    <p className="text-xs font-mono text-[var(--color-gold-300)] mt-0.5">
+                      Model SKU: {currentActiveSlide.sku}
+                    </p>
+                    <p className="text-[11px] text-gray-300 leading-snug mt-1.5">
+                      {currentActiveSlide.spec}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="pt-3 border-t border-white/15 flex items-center justify-between gap-2">
+                  <span className="text-[10px] font-mono text-gray-400">
+                    {currentActiveSlide.texture}
+                  </span>
+
+                  <div className="flex items-center gap-2">
+                    {activeProductData && (
+                      <button
+                        type="button"
+                        onClick={() => setModalProduct(activeProductData)}
+                        className="text-xs px-2.5 py-1.5 rounded-xs bg-white/10 hover:bg-white/20 text-white font-medium transition-colors cursor-pointer flex items-center gap-1"
+                      >
+                        <Eye className="w-3.5 h-3.5" />
+                        <span>Specs</span>
+                      </button>
+                    )}
+                    {activeProductData && (
+                      <button
+                        type="button"
+                        onClick={() => handleAddProduct(activeProductData)}
+                        className="text-xs px-3 py-1.5 rounded-xs bg-[var(--color-teal-600)] hover:bg-[var(--color-teal-500)] text-white font-semibold transition-colors cursor-pointer flex items-center gap-1 shadow-xs"
+                      >
+                        {addedSkuMap[activeProductData.id] ? (
+                          <>
+                            <Check className="w-3.5 h-3.5" />
+                            <span>Added</span>
+                          </>
+                        ) : (
+                          <>
+                            <FileText className="w-3.5 h-3.5" />
+                            <span>Add to Quote</span>
+                          </>
+                        )}
+                      </button>
+                    )}
+                  </div>
+                </div>
               </div>
 
-              {/* Commercial Standard Specification Card — Structured cleanly with ample room and zero overlap */}
-              <div className="p-4 sm:p-5 bg-black/50 dark:bg-[#181A1D]/80 backdrop-blur-md rounded-sm border border-white/15 dark:border-[#33373E] shadow-xl flex items-start gap-3.5">
+              {/* Commercial Standard Specification Card */}
+              <div className="p-4 sm:p-5 bg-black/55 dark:bg-[#181A1D]/85 backdrop-blur-md rounded-sm border border-white/15 dark:border-[#33373E] shadow-xl flex items-start gap-3.5">
                 <div className="w-9 h-9 rounded-full bg-[var(--color-teal-700)] text-white flex items-center justify-center shrink-0 mt-0.5 shadow-xs">
                   <ShieldCheck className="w-5 h-5" />
                 </div>
@@ -418,11 +570,11 @@ export const HomePage: React.FC<HomePageProps> = ({
                   key={product.id}
                   className="bg-white rounded-sm border border-[var(--border-subtle)] overflow-hidden shadow-2xs hover:shadow-md transition-all flex flex-col group"
                 >
-                  <div className="relative aspect-4/3 bg-gray-100 overflow-hidden">
+                  <div className="relative aspect-4/3 bg-gray-100 overflow-hidden cursor-pointer group" onClick={() => setModalProduct(product)}>
                     <img
                       src={product.images[0]?.src}
                       alt={product.images[0]?.alt}
-                      className="w-full h-full object-cover group-hover:scale-104 transition-transform duration-500"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       loading="lazy"
                     />
                     <div className="absolute top-2.5 left-2.5 bg-black/80 backdrop-blur-xs text-white text-[11px] font-mono px-2 py-0.5 rounded-xs">
@@ -431,11 +583,20 @@ export const HomePage: React.FC<HomePageProps> = ({
                     <div className="absolute top-2.5 right-2.5 bg-white/90 text-gray-800 text-[10px] font-semibold px-2 py-0.5 rounded-xs">
                       {product.collection}
                     </div>
+                    <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                      <span className="px-2.5 py-1 bg-white/95 text-gray-900 text-[11px] font-semibold rounded-xs shadow-xs flex items-center gap-1">
+                        <Eye className="w-3.5 h-3.5 text-[var(--color-teal-700)]" />
+                        Quick View
+                      </span>
+                    </div>
                   </div>
 
                   <div className="p-4 flex-1 flex flex-col justify-between">
                     <div>
-                      <h4 className="font-semibold text-sm text-[var(--color-text-primary)] mb-1">
+                      <h4
+                        onClick={() => setModalProduct(product)}
+                        className="font-semibold text-sm text-[var(--color-text-primary)] mb-1 hover:text-[var(--color-teal-700)] cursor-pointer transition-colors"
+                      >
                         {product.name_verbatim}
                       </h4>
                       <p className="text-xs text-gray-500 line-clamp-2 leading-relaxed mb-4">
@@ -443,27 +604,37 @@ export const HomePage: React.FC<HomePageProps> = ({
                       </p>
                     </div>
 
-                    <button
-                      onClick={() => handleAddProduct(product)}
-                      className={`w-full flex items-center justify-center gap-1.5 py-2.5 px-3 text-xs font-semibold rounded-xs transition-all cursor-pointer min-h-[44px] ${
-                        isAdded
-                          ? 'bg-green-700 text-white'
-                          : 'bg-[var(--surface-canvas)] hover:bg-[var(--color-teal-700)] text-gray-800 hover:text-white border border-gray-200'
-                      }`}
-                      aria-label={`Add ${product.name_verbatim} to Quote`}
-                    >
-                      {isAdded ? (
-                        <>
-                          <Check className="w-3.5 h-3.5" />
-                          <span>Added to Quote</span>
-                        </>
-                      ) : (
-                        <>
-                          <FileText className="w-3.5 h-3.5" />
-                          <span>Add to Quote RFP</span>
-                        </>
-                      )}
-                    </button>
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => setModalProduct(product)}
+                        className="p-2.5 text-xs text-gray-700 hover:text-gray-900 bg-gray-100 hover:bg-gray-200 rounded-xs transition-colors cursor-pointer min-h-[44px] min-w-[44px] flex items-center justify-center"
+                        title="View specifications"
+                        aria-label={`View specs for ${product.name_verbatim}`}
+                      >
+                        <Eye className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={() => handleAddProduct(product)}
+                        className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 text-xs font-semibold rounded-xs transition-all cursor-pointer min-h-[44px] ${
+                          isAdded
+                            ? 'bg-green-700 text-white'
+                            : 'bg-[var(--surface-canvas)] hover:bg-[var(--color-teal-700)] text-gray-800 hover:text-white border border-gray-200'
+                        }`}
+                        aria-label={`Add ${product.name_verbatim} to Quote`}
+                      >
+                        {isAdded ? (
+                          <>
+                            <Check className="w-3.5 h-3.5" />
+                            <span>Added to Quote</span>
+                          </>
+                        ) : (
+                          <>
+                            <FileText className="w-3.5 h-3.5" />
+                            <span>Add to Quote RFP</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
                   </div>
                 </div>
               );
@@ -635,6 +806,15 @@ export const HomePage: React.FC<HomePageProps> = ({
           </p>
         </div>
       </section>
+
+      {/* Product Detail Modal for inspecting specs */}
+      {modalProduct && (
+        <ProductDetailModal
+          product={modalProduct}
+          onClose={() => setModalProduct(null)}
+          onOpenStainGuide={() => onNavigateSection('care')}
+        />
+      )}
     </div>
   );
 };

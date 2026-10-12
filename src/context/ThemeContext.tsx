@@ -78,13 +78,22 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     } catch {}
   };
 
-  const toggleTheme = () => {
-    if (resolvedTheme === 'light') {
-      setThemeMode('dark');
-    } else {
-      setThemeMode('light');
-    }
+  const cycleTheme = () => {
+    setThemeModeState((prev) => {
+      const cycleMap: Record<ThemeMode, ThemeMode> = {
+        system: 'dark',
+        dark: 'light',
+        light: 'system',
+      };
+      const nextMode = cycleMap[prev] || 'system';
+      try {
+        localStorage.setItem(THEME_STORAGE_KEY, nextMode);
+      } catch {}
+      return nextMode;
+    });
   };
+
+  const toggleTheme = cycleTheme;
 
   return (
     <ThemeContext.Provider

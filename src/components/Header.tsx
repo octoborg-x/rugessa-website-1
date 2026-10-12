@@ -62,7 +62,7 @@ export const Header: React.FC<HeaderProps> = ({
             className="flex items-center focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[var(--border-focus)] rounded-sm cursor-pointer"
             aria-label="Rugessa Homepage"
           >
-            <RugessaLogo size="md" inverted={isTransparent} />
+            <RugessaLogo size="md" />
           </button>
 
           <div

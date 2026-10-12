@@ -23,7 +23,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-[#2C2D30]">
           {/* Brand Column */}
           <div className="lg:col-span-2 space-y-4">
-            <RugessaLogo size="md" inverted />
+            <RugessaLogo size="md" />
             <p className="text-xs text-gray-400 font-light leading-relaxed max-w-sm">
               "{siteData.brand.history_verbatim}"
             </p>
@@ -140,9 +140,9 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           <div>
             &copy; {new Date().getFullYear()} Rugessa. All rights reserved. Specialized Machine-Made Carpet Production.
           </div>
-          <div className="flex items-center gap-4 sm:gap-6">
+          <div className="flex flex-wrap items-center gap-4 sm:gap-6">
             <span>Mohammédia 28810, Morocco</span>
-            <ThemeToggle variant="compact" />
+            <ThemeToggle variant="segmented" />
             <button
               onClick={scrollToTop}
               className="flex items-center gap-1 hover:text-white transition-colors cursor-pointer"
